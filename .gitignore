@@ -1,0 +1,10 @@
+node_modules
+dist
+.DS_Store
+.env
+.env.local
+
+# Redundant asset folders (already in public/)
+about-image/
+hero-videos/
+workspace-images/

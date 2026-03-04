@@ -1,0 +1,239 @@
+@import url('https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&display=swap');
+
+.process-section {
+    height: 100vh;
+    padding: 40px 60px;
+    background-color: #0A0908;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.process-header {
+    text-align: center;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+.process-calligraphy {
+    font-family: 'Mrs Saint Delafield', cursive;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    color: var(--accent);
+    margin-bottom: -15px;
+    opacity: 0.8;
+}
+
+.process-title {
+    font-family: 'Humane', sans-serif;
+    font-size: clamp(4rem, 12vw, 10rem);
+    color: #fff;
+    line-height: 0.8;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Precise 4x3 Grid for 100vh coverage */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 12px;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    max-width: 1800px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.bento-item {
+    background: #111;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.card-image-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    backdrop-filter: blur(8px);
+    padding: 20px;
+}
+
+.card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #fff;
+    font-size: 0.9rem;
+    letter-spacing: 4px;
+    font-weight: 300;
+    text-transform: uppercase;
+    transform: translateY(15px);
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Hover Effects */
+.bento-item:hover .card-image-wrapper img {
+    transform: scale(1.1);
+}
+
+.bento-item:hover .card-overlay {
+    opacity: 1;
+}
+
+.bento-item:hover .card-title {
+    transform: translateY(0);
+}
+
+/* Grid Logic */
+.tall {
+    grid-row: span 2;
+}
+
+.wide {
+    grid-column: span 2;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(6, 1fr);
+    }
+
+    .process-section {
+        height: auto;
+        padding: 100px 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .process-section {
+        height: auto;
+        padding: 60px 12px;
+    }
+
+    .process-header {
+        margin-bottom: 15px;
+    }
+
+    .process-title {
+        font-size: 4rem;
+    }
+
+    .bento-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 180px;
+        gap: 8px;
+    }
+
+    /* Reset all desktop spanning for mobile */
+    .tall,
+    .wide,
+    .small {
+        grid-column: span 1 !important;
+        grid-row: span 1 !important;
+    }
+}
+
+/* ========== Fullscreen Lightbox ========== */
+.lightbox-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    cursor: pointer !important;
+    pointer-events: auto;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 85vw;
+    max-height: 85vh;
+    cursor: default;
+}
+
+.lightbox-image {
+    width: 100%;
+    height: 100%;
+    max-width: 85vw;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+}
+
+.lightbox-info {
+    position: absolute;
+    bottom: -40px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.lightbox-title {
+    font-family: 'Space Grotesk', sans-serif;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    letter-spacing: 5px;
+    font-weight: 300;
+    text-transform: uppercase;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    font-size: 1.2rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer !important;
+    pointer-events: auto;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: rotate(90deg);
+}

@@ -1,0 +1,287 @@
+/* ========== ABOUT GSAP HORIZONTAL SCROLL ========== */
+.about-horizontal-section {
+    height: 100vh;
+    background-color: #0A0908;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Texture overlay for cinematic feel */
+.about-horizontal-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.12;
+    mix-blend-mode: overlay;
+}
+
+.about-header {
+    position: absolute;
+    top: 60px;
+    left: 60px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+}
+
+.about-header-calligraphy {
+    font-family: 'Pinyon Script', cursive;
+    font-size: clamp(3rem, 6vw, 5rem);
+    color: var(--accent);
+    line-height: 0.8;
+    transform: rotate(-5deg);
+    margin-left: -10px;
+    margin-bottom: 5px;
+    text-shadow: 0 4px 20px rgba(189, 147, 84, 0.4);
+}
+
+.about-header h2 {
+    font-family: 'Humane', sans-serif;
+    font-size: clamp(5rem, 12vw, 10rem);
+    color: #fff;
+    margin: 0;
+    line-height: 0.8;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 2;
+}
+
+.about-header p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: #a0a0a0;
+    font-size: 1.2rem;
+    max-width: 300px;
+    line-height: 1.6;
+    margin-top: 15px;
+    margin-left: 5px;
+}
+
+.timeline-container {
+    display: flex;
+    height: 100%;
+    width: max-content;
+    align-items: center;
+    padding-top: 25vh;
+    /* Shifts the entire timeline down */
+}
+
+.timeline-item {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    padding: 0 10vw;
+    z-index: 5;
+}
+
+.background-year {
+    font-family: 'Humane', sans-serif;
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(20rem, 45vw, 40rem);
+    color: #fff;
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: -1;
+    line-height: 1;
+    letter-spacing: -5px;
+}
+
+/* Structural offset: alternating blocks up/down for magazine style */
+.timeline-item:nth-child(odd) .experience-content {
+    align-self: flex-end;
+    text-align: right;
+    margin-top: -15vh;
+}
+
+.timeline-item:nth-child(even) .experience-content {
+    align-self: flex-start;
+    text-align: left;
+    margin-top: -15vh;
+}
+
+/* Force the last timeline item to also align to the right side */
+.timeline-item:last-child .experience-content {
+    align-self: flex-end;
+    text-align: right;
+}
+
+.experience-content {
+    max-width: 550px;
+    position: relative;
+    padding: 40px;
+    background: rgba(10, 9, 8, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+}
+
+.experience-content::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: 30px;
+    height: 30px;
+    border-top: 1px solid var(--accent);
+    border-left: 1px solid var(--accent);
+}
+
+.timeline-item:nth-child(odd) .experience-content::before {
+    left: auto;
+    right: -10px;
+    border-left: none;
+    border-right: 1px solid var(--accent);
+}
+
+.timeline-item:last-child .experience-content::before {
+    left: auto;
+    right: -10px;
+    border-left: none;
+    border-right: 1px solid var(--accent);
+}
+
+.experience-content h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: #fff;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    line-height: 1.1;
+    letter-spacing: -1px;
+}
+
+.experience-content p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    color: #d0d0d0;
+    line-height: 1.8;
+}
+
+/* A glowing delicate thread */
+.timeline-track-element {
+    position: absolute;
+    bottom: 20%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timeline-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(189, 147, 84, 0.5), transparent);
+    z-index: 1;
+}
+
+.timeline-node {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateY(-50%);
+}
+
+.timeline-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #000;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--accent);
+    margin-bottom: 15px;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.4s ease;
+}
+
+.timeline-item:hover .timeline-dot {
+    transform: scale(1.5);
+    background-color: var(--accent);
+}
+
+.timeline-year {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--accent);
+    letter-spacing: 4px;
+    margin-top: 5px;
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .about-header {
+        top: 80px;
+        left: 20px;
+    }
+
+    .about-header h2 {
+        font-size: 4rem;
+        letter-spacing: 2px;
+    }
+
+    .about-header-calligraphy {
+        font-size: 2.5rem;
+    }
+
+    .timeline-item {
+        padding: 0 20px;
+    }
+
+    .timeline-item:nth-child(even) .experience-content,
+    .timeline-item:nth-child(odd) .experience-content {
+        align-self: center;
+        text-align: left;
+        margin-top: -10vh;
+    }
+
+    .timeline-item:nth-child(even) .experience-content::before {
+        left: -10px;
+        right: auto;
+        border-right: none;
+        border-left: 1px solid var(--accent);
+    }
+
+    .experience-content {
+        padding: 25px;
+    }
+
+    .experience-content h3 {
+        font-size: 2rem;
+    }
+
+    .experience-content p {
+        font-size: 1rem;
+    }
+
+    .background-year {
+        font-size: 15rem;
+        left: 50%;
+    }
+
+    .timeline-track-element {
+        bottom: 15%;
+    }
+}

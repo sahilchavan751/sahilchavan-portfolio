@@ -1,0 +1,77 @@
+/* ========== CUSTOM VIEWFINDER CURSOR ========== */
+
+.viewfinder-cursor {
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.vf-dot {
+    width: 4px;
+    height: 4px;
+    background-color: var(--accent);
+    border-radius: 50%;
+}
+
+.vf-mark {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-color: rgba(255, 255, 255, 0.8);
+    border-style: solid;
+    border-width: 0;
+}
+
+.vf-mark.top-left {
+    top: -2px;
+    left: -2px;
+    border-top-width: 2px;
+    border-left-width: 2px;
+}
+
+.vf-mark.top-right {
+    top: -2px;
+    right: -2px;
+    border-top-width: 2px;
+    border-right-width: 2px;
+}
+
+.vf-mark.bottom-left {
+    bottom: -2px;
+    left: -2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+}
+
+.vf-mark.bottom-right {
+    bottom: -2px;
+    right: -2px;
+    border-bottom-width: 2px;
+    border-right-width: 2px;
+}
+
+.cursor-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.35rem;
+    /* very small because it scales up */
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #000;
+    /* Dark text for contrast against solid cursor bg */
+}
+
+/* Fallback for touch devices */
+@media (pointer: coarse) {
+    .viewfinder-cursor {
+        display: none !important;
+    }
+}
