@@ -7,7 +7,7 @@ const videos = [
     { src: "/hero-videos/Mother's cry  International day of forest  Short film - Odinnn (1080p, h264).mp4", fit: true }
 ]
 
-const Hero = () => {
+const Hero = ({ onLoaded }) => {
     const [currentVideo, setCurrentVideo] = useState(0)
     const [fade, setFade] = useState(true)
     const [isVisible, setIsVisible] = useState(true)
@@ -109,6 +109,11 @@ const Hero = () => {
                     muted
                     loop
                     playsInline
+                    onLoadedData={() => {
+                        if (currentVideo === 0 && onLoaded) {
+                            onLoaded();
+                        }
+                    }}
                 >
                     <source src={videos[currentVideo].src} type="video/mp4" />
                 </video>

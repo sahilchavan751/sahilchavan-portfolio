@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 
-const Preloader = ({ onComplete }) => {
+const Preloader = ({ onComplete, isVideoLoaded }) => {
     const [phase, setPhase] = useState('enter') // enter -> hold -> exit
     const [progress, setProgress] = useState(0)
     const isExiting = useRef(false)
@@ -23,7 +23,7 @@ const Preloader = ({ onComplete }) => {
 
     // Phase management
     useEffect(() => {
-        if (progress >= 100 && !isExiting.current) {
+        if (progress >= 100 && isVideoLoaded && !isExiting.current) {
             isExiting.current = true
             setPhase('exit')
 
@@ -69,6 +69,17 @@ const Preloader = ({ onComplete }) => {
                         </text>
                     </svg>
                 </div>
+
+                {progress >= 100 && !isVideoLoaded && (
+                    <div className="preloader-loading-text">
+                        <span>PREPARING MEDIA</span>
+                        <div className="dot-loader">
+                            <span className="dot"></span>
+                            <span className="dot"></span>
+                            <span className="dot"></span>
+                        </div>
+                    </div>
+                )}
             </div>
 
             <div className="shutter-half top"></div>

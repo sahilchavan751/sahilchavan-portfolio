@@ -17,6 +17,11 @@ import './App.css'
 function App() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
+    const [isVideoLoaded, setIsVideoLoaded] = useState(false)
+
+    const handleVideoLoad = useCallback(() => {
+        setIsVideoLoaded(true)
+    }, [])
 
     useEffect(() => {
         // Initialize Lenis
@@ -83,13 +88,18 @@ function App() {
         <div className="app">
             <CustomCursor />
             {/* Preloader always on top during loading */}
-            {isLoading && <Preloader onComplete={handlePreloaderComplete} />}
+            {isLoading && (
+                <Preloader
+                    onComplete={handlePreloaderComplete}
+                    isVideoLoaded={isVideoLoaded}
+                />
+            )}
 
             {/* Main Content - Always in DOM but hidden by preloader z-index */}
             <Navbar onMenuOpen={() => setIsMenuOpen(true)} />
 
             <div id="home" className="hero-wrapper">
-                <Hero />
+                <Hero onLoaded={handleVideoLoad} />
             </div>
 
             <main className="main-content">
