@@ -104,3 +104,30 @@ html.lenis body {
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
 }
+
+/* --- Mobile Performance Optimization --- */
+@media (max-width: 768px) {
+  /* Force GPU rendering for elements with heavy transforms or backdrop-filters */
+  .projects-topbar,
+  .project-card,
+  .project-modal-backdrop,
+  .project-modal,
+  .hero-content,
+  .about-glass-panel,
+  .about-card,
+  .process-card,
+  .dome-overlay,
+  .dome-info-card,
+  .navbar,
+  .menu-btn,
+  .music-player-container {
+    will-change: transform, opacity, backdrop-filter;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  /* Prevent overscroll bounce layout thrashing on mobile browsers */
+  html, body {
+    overscroll-behavior-y: none;
+  }
+}
