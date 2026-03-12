@@ -113,8 +113,8 @@ const About = () => {
                     EXPERIENCE
                 </motion.h2>
                 <motion.p
-                    initial={{ opacity: 0, opacity: 0 }}
-                    whileInView={{ opacity: 1, opacity: 1 }}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
                     transition={{ duration: 1, delay: 0.4 }}
                 >
                     Bridging cinematic storytelling and interactive technology.
