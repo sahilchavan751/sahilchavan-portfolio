@@ -116,7 +116,7 @@ const MusicPlayer = () => {
     return (
         <div className={`music-player-container ${isExpanded ? 'expanded' : ''}`}>
             <audio ref={audioRef} loop preload="auto">
-                <source src="/Victory Lap Five - Fred again...mp3" type="audio/mpeg" />
+                <source src="/solitude.mp3" type="audio/mpeg" />
             </audio>
 
             {!isExpanded && (
