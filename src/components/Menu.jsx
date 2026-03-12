@@ -1,19 +1,29 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import sahilImg from '../assets/about-image/sahil-chavan.jpg'
 
 const Menu = ({ isOpen, onClose }) => {
     const menuItems = [
         { label: 'HOME', href: '#home' },
-        { label: 'PROJECTS', href: '#projects' },
+        { label: 'PROJECTS', href: '/projects' },
         { label: 'ABOUT', href: '#about' }, // We'll add this section later or link to home for now
         { label: 'CONTACT', href: '#contact' }
     ]
+
+    const navigate = useNavigate()
 
     const handleLinkClick = (e, href) => {
         e.preventDefault()
         onClose()
 
+        // Route-based links (e.g. /projects)
+        if (href.startsWith('/')) {
+            navigate(href)
+            return
+        }
+
+        // Hash-based links (scroll on homepage)
         if (window.lenis) {
             if (href === '#home') {
                 window.lenis.scrollTo(0, {

@@ -1,0 +1,49 @@
+# Project Analysis: Sahil Chavan Portfolio
+
+This guide provides a technical overview of your project, structured for a viva or technical interview.
+
+## 🚀 Core Tech Stack
+
+- **Frontend Library**: **React (v18)** - A component-based UI library.
+- **Build Tool**: **Vite (v5)** - A modern, ultra-fast frontend build tool that uses ES modules.
+- **Language**: **JavaScript (JSX)** - Using modern ES6+ syntax.
+- **Styling**: **Vanilla CSS** - Component-level CSS files for scoped styling.
+
+## 📦 Key Dependencies & Libraries
+
+These are the "power-ups" used in your project:
+
+1.  **GSAP (GreenSock Animation Platform)**:
+    - *Purpose*: Used for high-performance, complex animations (like smooth transitions and sequence-based motion).
+2.  **Framer Motion**:
+    - *Purpose*: Handles React-specific animations, entry/exit transitions, and simple physics-based motion.
+3.  **Lenis (Studio Freight)**:
+    - *Purpose*: Implements **Smooth Scrolling**. It overrides the default browser scroll for a more "premium" and synchronized feel with animations.
+4.  **Lucide React**:
+    - *Purpose*: A clean and consistent icon library.
+5.  **@use-gesture/react**:
+    - *Purpose*: Used for handling complex touch and mouse gestures, likely used in your galleries or interactive elements.
+
+## 📂 Project Architecture
+
+The project follows a modular, component-based architecture:
+
+- [src/main.jsx](file:///c:/sahil-portfolio/src/main.jsx): The entry point where the React app is mounted to the DOM.
+- [src/App.jsx](file:///c:/sahil-portfolio/src/App.jsx): The root component that stitches all sections together.
+- `src/components/`: Contains individual sections (Modular Design).
+    - **Interactive Features**: `DomeGallery.jsx`, `CustomCursor.jsx`, `MusicPlayer.jsx`.
+    - **Core Sections**: `Hero.jsx`, `About.jsx`, `Workspace.jsx`.
+    - **User Experience**: `Preloader.jsx` (shown during loading).
+
+## 💡 Key Highlights (Viva Talking Points)
+
+- **Performance**: Powered by **Vite**, ensuring fast HMR (Hot Module Replacement) and optimized production builds.
+- **User Experience (UX)**: Features a **Custom Cursor**, **Smooth Scrolling (Lenis)**, and a **Preloader** to ensure a polished initial impression.
+- **Visuals**: Leverages a mix of **GSAP** and **Framer Motion** to create a dynamic, premium portfolio feel.
+- **Modularity**: The code is separated into logical components, making it maintainable and scalable.
+
+## 🛠️ Commands
+
+- `npm run dev`: Starts the local development server.
+- `npm run build`: Generates the production-ready bundle in the `dist/` folder.
+- `npm run preview`: Locally previews the production build.

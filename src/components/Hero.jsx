@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 const videos = [
     { src: "/hero-videos/college... - Odinnn (1080p, h264).mp4", fit: false },
     { src: "/hero-videos/November dump... - Odinnn (1080p, h264).mp4", fit: false },
-    { src: "/hero-videos/Mother's cry  International day of forest  Short film - Odinnn (1080p, h264).mp4", fit: true }
+    { src: "/hero-videos/Mothers cry International day of forest Short film - Odinnn (1080p, h264).mp4", fit: true }
 ]
 
 const Hero = () => {

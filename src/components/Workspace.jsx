@@ -5,7 +5,7 @@ const projects = [
     { id: 1, title: 'Landscape', type: 'image', src: '/workspace-images/pexels-eberhardgross-1287075.jpg' },
     { id: 2, title: 'College', type: 'video', src: "/hero-videos/college... - Odinnn (1080p, h264).mp4" },
     { id: 3, title: 'Mountains', type: 'image', src: '/workspace-images/pexels-eberhardgross-1366919.jpg' },
-    { id: 4, title: "Mother's Cry", type: 'video', src: "/hero-videos/Mother's cry  International day of forest  Short film - Odinnn (1080p, h264).mp4" },
+    { id: 4, title: "Mother's Cry", type: 'video', src: "/hero-videos/Mothers cry International day of forest Short film - Odinnn (1080p, h264).mp4" },
     { id: 5, title: 'Architecture', type: 'image', src: '/workspace-images/pexels-freestockpro-1174183.jpg' },
     { id: 6, title: 'November', type: 'video', src: "/hero-videos/November dump... - Odinnn (1080p, h264).mp4" },
     { id: 7, title: 'Abstract', type: 'image', src: '/workspace-images/pexels-lukas-rodriguez-1845331-3573351.jpg' },

@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import Lenis from 'lenis'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -12,17 +13,16 @@ import Process from './components/Process'
 import SkillsStrip from './components/SkillsStrip'
 import Footer from './components/Footer'
 import CustomCursor from './components/CustomCursor'
+import ProjectsPage from './components/ProjectsPage'
 import './App.css'
 
-function App() {
-    const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const [isLoading, setIsLoading] = useState(true)
+function HomePage({ isMenuOpen, setIsMenuOpen, isLoading, handlePreloaderComplete }) {
 
     useEffect(() => {
         // Initialize Lenis
         const lenis = new Lenis({
-            lerp: 0.05, // smoother interpolation
-            duration: 2, // slower scroll feel
+            lerp: 0.05,
+            duration: 2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             orientation: 'vertical',
             gestureOrientation: 'vertical',
@@ -35,7 +35,6 @@ function App() {
 
         window.lenis = lenis;
 
-        // Global hash link handler for smooth scrolling
         const handleHashLinks = (e) => {
             const target = e.target.closest('a');
             if (target && target.hash && target.hash.startsWith('#')) {
@@ -75,17 +74,9 @@ function App() {
         }
     }, [])
 
-    const handlePreloaderComplete = useCallback(() => {
-        setIsLoading(false)
-    }, [])
-
     return (
-        <div className="app">
-            <CustomCursor />
-            {/* Preloader always on top during loading */}
+        <>
             {isLoading && <Preloader onComplete={handlePreloaderComplete} />}
-
-            {/* Main Content - Always in DOM but hidden by preloader z-index */}
             <Navbar onMenuOpen={() => setIsMenuOpen(true)} />
 
             <div id="home" className="hero-wrapper">
@@ -121,6 +112,32 @@ function App() {
 
             <Menu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
             <MusicPlayer />
+        </>
+    )
+}
+
+function App() {
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
+
+    const handlePreloaderComplete = useCallback(() => {
+        setIsLoading(false)
+    }, [])
+
+    return (
+        <div className="app">
+            <CustomCursor />
+            <Routes>
+                <Route path="/" element={
+                    <HomePage
+                        isMenuOpen={isMenuOpen}
+                        setIsMenuOpen={setIsMenuOpen}
+                        isLoading={isLoading}
+                        handlePreloaderComplete={handlePreloaderComplete}
+                    />
+                } />
+                <Route path="/projects" element={<ProjectsPage />} />
+            </Routes>
         </div>
     )
 }
