@@ -8,76 +8,73 @@ const projectsData = [
         id: 1,
         title: 'Billing System',
         language: 'C#',
-        description: 'A desktop billing application built with Windows Presentation Foundation, featuring invoice generation, customer management, and real-time billing workflows.',
+        description: 'A robust desktop billing application featuring invoice generation, customer management, and real-time billing workflows.',
         stack: ['.NET', 'WPF', 'XAML', 'SQL Server'],
         features: [
-            'Invoice generation & management',
-            'Customer database with CRUD operations',
-            'Real-time billing calculations',
-            'Desktop-native UI with WPF controls',
+            'Automated Invoice generation',
+            'Customer CRUD operations',
+            'Real-time tax calculations',
+            'Advanced reporting engine',
         ],
-        accent: 'linear-gradient(135deg, #667eea, #764ba2)',
+        accent: 'linear-gradient(135deg, #F4C025 0%, #B88A00 100%)',
     },
     {
         id: 2,
         title: 'Sahil Portfolio',
         language: 'JavaScript (JSX)',
-        description: 'A premium, interactive personal portfolio website featuring smooth scroll animations, a custom cursor, a dome gallery, and immersive micro-interactions.',
-        stack: ['React', 'Vite', 'GSAP', 'Framer Motion', 'Lenis', 'Lucide React'],
+        description: 'A high-end, immersive personal portfolio featuring fluid GSAP animations, interactive 3D elements, and custom micro-interactions.',
+        stack: ['React', 'Vite', 'GSAP', 'Framer Motion', 'Lenis'],
         features: [
-            'Smooth scrolling with Lenis',
-            'Complex GSAP scroll-triggered animations',
-            'Interactive 3D dome gallery',
-            'Custom cursor with contextual states',
-            'Background music player',
-            'Preloader with animated transitions',
+            'Lenis smooth scrolling',
+            'Magnetic cursor interactions',
+            '3D Dome gallery system',
+            'Audio-visual experience',
         ],
-        accent: 'linear-gradient(135deg, #f093fb, #f5576c)',
+        accent: 'linear-gradient(135deg, #FFD700 0%, #D4AF37 100%)',
     },
     {
         id: 3,
         title: 'Traceless',
         language: 'JavaScript',
-        description: 'A Progressive Web App focused on privacy and ephemeral content sharing, leveraging Firebase for real-time data and Vercel Blob for media storage.',
-        stack: ['React', 'PWA', 'Tailwind CSS', 'Firebase', 'Vercel Blob'],
+        description: 'A privacy-focused ephemeral content sharing platform built as a high-performance Progressive Web App.',
+        stack: ['React', 'Firebase', 'Vercel Blob', 'PWA'],
         features: [
-            'Progressive Web App — installable on any device',
-            'Firebase Authentication & Firestore',
-            'Vercel Blob for secure media storage',
-            'Responsive UI with Tailwind CSS',
-            'Offline-capable with service workers',
+            'End-to-end ephemeral sharing',
+            'Firebase real-time sync',
+            'Secure media handling',
+            'Offline-first architecture',
         ],
-        accent: 'linear-gradient(135deg, #4facfe, #00f2fe)',
+        accent: 'linear-gradient(135deg, #F4C025 0%, #8A6D0F 100%)',
     },
 ]
 
 const cardVariants = {
-    hidden: { opacity: 0, y: 60, scale: 0.95 },
+    hidden: { opacity: 0, scale: 0.9, y: 50 },
     visible: (i) => ({
         opacity: 1,
-        y: 0,
         scale: 1,
+        y: 0,
         transition: {
-            delay: 0.1 * i,
-            duration: 0.8,
-            ease: [0.22, 1, 0.36, 1],
+            delay: 0.15 * i,
+            duration: 0.9,
+            ease: [0.16, 1, 0.3, 1],
         },
     }),
 }
 
 const modalVariants = {
-    hidden: { opacity: 0, y: 40, scale: 0.95 },
+    hidden: { opacity: 0, backdropFilter: 'blur(0px)', scale: 1.05 },
     visible: { 
         opacity: 1, 
-        y: 0, 
+        backdropFilter: 'blur(40px)', 
         scale: 1,
-        transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+        transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
     },
     exit: { 
         opacity: 0, 
-        y: 30, 
-        scale: 0.98,
-        transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
+        backdropFilter: 'blur(0px)',
+        scale: 1.02,
+        transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] }
     }
 }
 
@@ -129,7 +126,7 @@ const ProjectsPage = () => {
                 transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             >
                 <h1>Selected Works</h1>
-                <p>A curated collection of projects spanning desktop applications, web experiences, and progressive web apps.</p>
+                <p>A curated collection of projects spanning desktop applications, web experiences, and immersive progressive web apps.</p>
             </motion.div>
 
             {/* Project Cards Grid */}
@@ -141,7 +138,8 @@ const ProjectsPage = () => {
                         style={{ '--card-accent': project.accent }}
                         custom={i}
                         initial="hidden"
-                        animate="visible"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: "-100px" }}
                         variants={cardVariants}
                         onClick={() => setSelectedProject(project)}
                     >
