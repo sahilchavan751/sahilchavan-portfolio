@@ -28,7 +28,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    padding: 30px 50px;
+    padding: 45px 80px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -95,8 +95,21 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0 50px;
+    padding: 0 70px;
     position: relative;
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+/* Inner rounded border overlay */
+.hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 30px;
+    box-shadow: inset 0 0 0 18px #0A0908;
+    pointer-events: none;
+    z-index: 5;
 }
 
 .video-background {
@@ -283,10 +296,10 @@
 
 .hero-bottom {
     position: absolute;
-    bottom: 40px;
+    bottom: 50px;
     left: 0;
     width: 100%;
-    padding: 0 50px;
+    padding: 0 70px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -462,11 +475,26 @@
 
 @media (max-width: 768px) {
 
-    .navbar,
-    .hero,
-    .hero-bottom,
+    .navbar {
+        padding: 35px 50px;
+    }
+
+    .hero {
+        padding: 0 50px;
+    }
+
+    .hero-bottom {
+        padding: 0 50px;
+        bottom: 45px;
+    }
+
     .full-screen-menu {
         padding: 20px;
+    }
+
+    .music-player-container {
+        bottom: 90px;
+        right: 50px;
     }
 
     .hero-main-title .sahil-text {
@@ -611,8 +639,8 @@
 /* ========== MUSIC TOGGLE & PLAYER ========== */
 .music-player-container {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
+    bottom: 80px;
+    right: 50px;
     z-index: 150;
     display: flex;
     justify-content: flex-end;
