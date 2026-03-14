@@ -4,7 +4,7 @@ import { Play, Pause, Volume2, VolumeX, X } from 'lucide-react'
 const MusicPlayer = () => {
     const [isPlaying, setIsPlaying] = useState(false)
     const [isMuted, setIsMuted] = useState(true)
-    const [volume, setVolume] = useState(0.15)
+    const [volume, setVolume] = useState(0.35)
     const [isExpanded, setIsExpanded] = useState(false)
     const audioRef = useRef(null)
     const hasStarted = useRef(false)
@@ -104,8 +104,8 @@ const MusicPlayer = () => {
             audio.muted = false
             setIsMuted(false)
             if (volume === 0) {
-                setVolume(0.15)
-                audio.volume = 0.15
+                setVolume(0.35)
+                audio.volume = 0.35
             }
         } else {
             audio.muted = true
