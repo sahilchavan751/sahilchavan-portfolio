@@ -2,13 +2,13 @@ import React, { useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const projects = [
-    { id: 1, title: 'Landscape', type: 'image', src: '/workspace-images/pexels-eberhardgross-1287075.jpg' },
+    { id: 1, title: 'Lost in Pages', type: 'image', src: '/workspace-images/w1.jpg' },
     { id: 2, title: 'College', type: 'video', src: "/hero-videos/college... - Odinnn (1080p, h264).mp4" },
-    { id: 3, title: 'Mountains', type: 'image', src: '/workspace-images/pexels-eberhardgross-1366919.jpg' },
+    { id: 3, title: 'Silhouette', type: 'image', src: '/workspace-images/w2.jpg' },
     { id: 4, title: "Mother's Cry", type: 'video', src: "/hero-videos/Mothers cry International day of forest Short film - Odinnn (1080p, h264).mp4" },
-    { id: 5, title: 'Architecture', type: 'image', src: '/workspace-images/pexels-freestockpro-1174183.jpg' },
+    { id: 5, title: 'Village Dusk', type: 'image', src: '/workspace-images/w3.jpg' },
     { id: 6, title: 'November', type: 'video', src: "/hero-videos/November dump... - Odinnn (1080p, h264).mp4" },
-    { id: 7, title: 'Abstract', type: 'image', src: '/workspace-images/pexels-lukas-rodriguez-1845331-3573351.jpg' },
+    { id: 7, title: 'Skyline', type: 'image', src: '/workspace-images/w4.jpg' },
 ]
 
 const ProjectStrip = ({ project, isActive, onClick }) => {
