@@ -90,7 +90,7 @@ function HomePage({ isMenuOpen, setIsMenuOpen, isLoading, handlePreloaderComplet
 
                 <div className="dome-gallery-wrapper">
                     <div className="dome-gallery-title">
-                        <h2>CAPTURES</h2>
+                        <h2>STACK</h2>
                     </div>
                     <DomeGallery
                         fit={0.6}

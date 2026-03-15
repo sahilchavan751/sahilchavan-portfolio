@@ -3,10 +3,21 @@ import { useGesture } from '@use-gesture/react';
 import './DomeGallery.css';
 
 const DEFAULT_IMAGES = [
-    { src: '/workspace-images/pexels-eberhardgross-1287075.jpg', alt: 'Workspace Project 1' },
-    { src: '/workspace-images/pexels-eberhardgross-1366919.jpg', alt: 'Workspace Project 2' },
-    { src: '/workspace-images/pexels-freestockpro-1174183.jpg', alt: 'Workspace Project 3' },
-    { src: '/workspace-images/pexels-lukas-rodriguez-1845331-3573351.jpg', alt: 'Workspace Project 4' }
+    { src: '/tech-logos/react.svg', alt: 'React' },
+    { src: '/tech-logos/csharp.svg', alt: 'C#' },
+    { src: '/tech-logos/dotnet.svg', alt: '.NET' },
+    { src: '/tech-logos/html5.svg', alt: 'HTML5' },
+    { src: '/tech-logos/css3.svg', alt: 'CSS3' },
+    { src: '/tech-logos/javascript.svg', alt: 'JavaScript' },
+    { src: '/tech-logos/nextjs.svg', alt: 'Next.js' },
+    { src: '/tech-logos/firebase.svg', alt: 'Firebase' },
+    { src: '/tech-logos/sql.svg', alt: 'SQL' },
+    { src: '/tech-logos/typescript.svg', alt: 'TypeScript' },
+    { src: '/tech-logos/nodejs.svg', alt: 'Node.js' },
+    { src: '/tech-logos/git.svg', alt: 'Git' },
+    { src: '/tech-logos/figma.svg', alt: 'Figma' },
+    { src: '/tech-logos/tailwindcss.svg', alt: 'TailwindCSS' },
+    { src: '/tech-logos/python.svg', alt: 'Python' }
 ];
 
 const DEFAULTS = {
@@ -482,9 +493,25 @@ export default function DomeGallery({
             overlay.style.transformOrigin = 'top left';
             overlay.style.transition = `transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease`;
             const rawSrc = parent.dataset.src || el.querySelector('img')?.src || '';
+            const altText = el.querySelector('img')?.alt || '';
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'enlarge-inner';
+
+            const imgContainer = document.createElement('div');
+            imgContainer.className = 'enlarge-circle';
             const img = document.createElement('img');
             img.src = rawSrc;
-            overlay.appendChild(img);
+            img.alt = altText;
+            imgContainer.appendChild(img);
+            wrapper.appendChild(imgContainer);
+
+            const label = document.createElement('span');
+            label.className = 'enlarge-label';
+            label.textContent = altText;
+            wrapper.appendChild(label);
+
+            overlay.appendChild(wrapper);
             viewerRef.current.appendChild(overlay);
             const tx0 = tileR.left - frameR.left;
             const ty0 = tileR.top - frameR.top;
