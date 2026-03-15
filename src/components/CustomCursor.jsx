@@ -33,6 +33,9 @@ const CustomCursor = () => {
             } else if (target.closest('.bento-item')) {
                 setCursorVariant('view');
                 setCursorText('VIEW');
+            } else if (target.closest('.music-player-container')) {
+                setCursorVariant('music');
+                setCursorText('🎵');
             } else if (target.closest('a') || target.closest('button') || target.closest('.menu-trigger') || target.closest('.social-links') || target.closest('.close-btn')) {
                 setCursorVariant('hover');
                 setCursorText('');
@@ -203,6 +206,19 @@ const CustomCursor = () => {
             width: 120,
             height: 40,
             borderRadius: '20px'
+        },
+        music: {
+            x: mousePosition.x - 20,
+            y: mousePosition.y - 20,
+            scale: 1,
+            backgroundColor: 'var(--accent)',
+            mixBlendMode: 'normal',
+            border: 'none',
+            color: '#000',
+            width: 40,
+            height: 40,
+            borderRadius: '50%',
+            boxShadow: '0 0 15px rgba(255,255,255,0.15)'
         }
     };
 
@@ -228,8 +244,8 @@ const CustomCursor = () => {
                         <div className="vf-dot"></div>
                     </>
                 )}
-                {(cursorVariant === 'play' || cursorVariant === 'drag' || cursorVariant === 'scroll' || cursorVariant === 'send' || cursorVariant === 'view' || cursorVariant === 'go' || cursorVariant === 'me') && (
-                    <span className="cursor-text" style={{ fontSize: (cursorVariant === 'scroll' || cursorVariant === 'send' || cursorVariant === 'view' || cursorVariant === 'go' || cursorVariant === 'me') ? '0.7rem' : '0.35rem' }}>{cursorText}</span>
+                {(cursorVariant === 'play' || cursorVariant === 'drag' || cursorVariant === 'scroll' || cursorVariant === 'send' || cursorVariant === 'view' || cursorVariant === 'go' || cursorVariant === 'me' || cursorVariant === 'music') && (
+                    <span className="cursor-text" style={{ fontSize: (cursorVariant === 'scroll' || cursorVariant === 'send' || cursorVariant === 'view' || cursorVariant === 'go' || cursorVariant === 'me' || cursorVariant === 'music') ? '0.7rem' : '0.45rem' }}>{cursorText}</span>
                 )}
             </motion.div>
         </>

@@ -1,41 +1,21 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Process.css';
-
-gsap.registerPlugin(ScrollTrigger);
-
 const processItems = [
-    { id: 1, title: "PEAK VISION", image: "/workspace-images/pexels-eberhardgross-1366919.jpg", size: "tall" },
-    { id: 2, title: "COASTAL GLOW", image: "/workspace-images/pexels-eberhardgross-1287075.jpg", size: "small" },
-    { id: 3, title: "THE NARRATIVE", image: "/workspace-images/pexels-lukas-rodriguez-1845331-3573351.jpg", size: "wide" },
-    { id: 4, title: "STUDIO VIBES", image: "/workspace-images/pexels-freestockpro-1174183.jpg", size: "small" },
-    { id: 5, title: "DIGITAL FLOW", image: "/workspace-images/pexels-eberhardgross-1287075.jpg", size: "small" },
-    { id: 6, title: "CINEMATIC TEXTURE", image: "/workspace-images/pexels-freestockpro-1174183.jpg", size: "small" },
-    { id: 7, title: "MASTERING LIGHT", image: "/workspace-images/pexels-eberhardgross-1366919.jpg", size: "wide" },
-    { id: 8, title: "MOTION STORY", image: "/workspace-images/pexels-lukas-rodriguez-1845331-3573351.jpg", size: "small" },
-    { id: 9, title: "URBAN FRAME", image: "/workspace-images/pexels-eberhardgross-1287075.jpg", size: "small" }
+    { id: 1, title: "PLANNING", image: "/process-images/brainstorming.jpg", size: "tall" },
+    { id: 2, title: "PLANNING", image: "/process-images/planning.jpg", size: "small" },
+    { id: 3, title: "DESIGNING", image: "/process-images/designing.jpg", size: "wide" },
+    { id: 4, title: "CODING", image: "/process-images/coding.jpg", size: "small" },
+    { id: 5, title: "DIRECTING", image: "/process-images/directing.jpg", size: "small" },
+    { id: 6, title: "TESTING", image: "/process-images/testing.jpg", size: "small" },
+    { id: 7, title: "REVIEWING", image: "/process-images/reviewing.jpg", size: "wide" },
+    { id: 8, title: "DEPLOYING", image: "/process-images/deploying.jpg", size: "small" },
+    { id: 9, title: "LAUNCH", image: "/process-images/launch.jpg", size: "small" }
 ];
 
 const Process = () => {
     const sectionRef = useRef(null);
     const [selectedImage, setSelectedImage] = useState(null);
-
-    // GSAP Pin: Magnetically hold the section in place briefly
-    useEffect(() => {
-        let ctx = gsap.context(() => {
-            ScrollTrigger.create({
-                trigger: sectionRef.current,
-                start: 'top top',
-                end: '+=300',
-                pin: true,
-                pinSpacing: true,
-            });
-        }, sectionRef);
-
-        return () => ctx.revert();
-    }, []);
 
     // Close lightbox on Escape key
     useEffect(() => {
@@ -45,6 +25,16 @@ const Process = () => {
         window.addEventListener('keydown', handleEsc);
         return () => window.removeEventListener('keydown', handleEsc);
     }, []);
+
+    // Hide header when lightbox is open
+    useEffect(() => {
+        if (selectedImage) {
+            document.body.classList.add('lightbox-open');
+        } else {
+            document.body.classList.remove('lightbox-open');
+        }
+        return () => document.body.classList.remove('lightbox-open');
+    }, [selectedImage]);
 
     const splitText = (text) => {
         return text.split('').map((char, i) => (
@@ -141,6 +131,15 @@ const Process = () => {
                         transition={{ duration: 0.4 }}
                         onClick={() => setSelectedImage(null)}
                     >
+                        <button
+                            className="lightbox-close"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedImage(null);
+                            }}
+                        >
+                            ✕
+                        </button>
                         <motion.div
                             className="lightbox-content"
                             initial={{ scale: 0.8, opacity: 0, y: 30 }}
@@ -157,12 +156,6 @@ const Process = () => {
                             <div className="lightbox-info">
                                 <span className="lightbox-title">{selectedImage.title}</span>
                             </div>
-                            <button
-                                className="lightbox-close"
-                                onClick={() => setSelectedImage(null)}
-                            >
-                                ✕
-                            </button>
                         </motion.div>
                     </motion.div>
                 )}

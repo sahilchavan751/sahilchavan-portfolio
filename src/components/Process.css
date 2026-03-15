@@ -172,7 +172,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 9999;
+    z-index: 999999;
     cursor: pointer !important;
     pointer-events: auto;
 }
@@ -213,9 +213,9 @@
 }
 
 .lightbox-close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
+    position: fixed;
+    top: 30px;
+    right: 40px;
     background: rgba(0, 0, 0, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.3);
     color: #fff;
@@ -229,11 +229,18 @@
     cursor: pointer !important;
     pointer-events: auto;
     transition: all 0.3s ease;
-    z-index: 10;
+    z-index: 9999999;
 }
 
 .lightbox-close:hover {
     background: rgba(255, 255, 255, 0.15);
     border-color: rgba(255, 255, 255, 0.6);
     transform: rotate(90deg);
+}
+
+/* Hide navigation header globally when lightbox is open */
+body.lightbox-open .navbar {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
 }

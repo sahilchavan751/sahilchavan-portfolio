@@ -50,7 +50,7 @@ const Menu = ({ isOpen, onClose }) => {
                 <motion.div
                     initial={{ y: '-100%' }}
                     animate={{ y: 0 }}
-                    exit={{ y: '-100%' }}
+                    exit={{ y: '100%' }}
                     transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
                     className="full-screen-menu"
                 >
