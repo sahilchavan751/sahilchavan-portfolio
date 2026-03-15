@@ -1422,9 +1422,42 @@ body.popup-open .navbar {
     flex-direction: column;
     position: relative;
     z-index: 10;
+    overflow: hidden;
+}
+
+/* Cool right-side half grid background */
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60%;
+    height: 100%;
+    background-size: 50px 50px;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    z-index: 0;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 40%, black 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 40%, black 100%);
+}
+
+.footer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60%;
+    height: 100%;
+    background: radial-gradient(circle at 80% 50%, rgba(244, 192, 37, 0.08) 0%, transparent 60%);
+    z-index: 0;
+    pointer-events: none;
 }
 
 .footer-content {
+    position: relative;
+    z-index: 1;
     width: 100%;
     flex: 1;
     display: flex;
