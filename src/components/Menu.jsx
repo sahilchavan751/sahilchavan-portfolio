@@ -7,7 +7,7 @@ const Menu = ({ isOpen, onClose }) => {
     const menuItems = [
         { label: 'HOME', href: '#home' },
         { label: 'PROJECTS', href: '/projects' },
-        { label: 'ABOUT', href: '#about' }, // We'll add this section later or link to home for now
+        { label: 'ABOUT', href: '/about' },
         { label: 'CONTACT', href: '#contact' }
     ]
 
