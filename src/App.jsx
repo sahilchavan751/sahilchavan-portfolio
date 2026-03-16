@@ -15,6 +15,7 @@ import Footer from './components/Footer'
 import CustomCursor from './components/CustomCursor'
 import ProjectsPage from './components/ProjectsPage'
 import AboutInfoPage from './components/AboutInfoPage'
+import ContactPage from './components/ContactPage'
 import './App.css'
 
 function HomePage({ isMenuOpen, setIsMenuOpen, isLoading, handlePreloaderComplete }) {
@@ -126,6 +127,7 @@ function App() {
                 } />
                 <Route path="/projects" element={<ProjectsPage />} />
                 <Route path="/about" element={<AboutInfoPage />} />
+                <Route path="/contact" element={<ContactPage />} />
             </Routes>
         </div>
     )

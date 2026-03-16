@@ -8,7 +8,7 @@ const Menu = ({ isOpen, onClose }) => {
         { label: 'HOME', href: '#home' },
         { label: 'PROJECTS', href: '/projects' },
         { label: 'ABOUT', href: '/about' },
-        { label: 'CONTACT', href: '#contact' }
+        { label: 'CONTACT', href: '/contact' }
     ]
 
     const navigate = useNavigate()

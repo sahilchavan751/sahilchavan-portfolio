@@ -18,13 +18,13 @@ const CustomCursor = () => {
         const handleMouseEnter = (e) => {
             const target = e.target;
 
-            if (target.closest('.grid-block--cta')) {
+            if (target.closest('.grid-block--cta') || target.closest('.contact-block--form button')) {
                 setCursorVariant('gridCta');
                 setCursorText('CLICK');
             } else if (target.closest('.grid-block--image')) {
                 setCursorVariant('gridGrab');
                 setCursorText('✦');
-            } else if (target.closest('.grid-block')) {
+            } else if (target.closest('.grid-block') || target.closest('.contact-grid-block')) {
                 setCursorVariant('gridMove');
                 setCursorText('MOVE');
             } else if (target.closest('.cube-card')) {
@@ -48,7 +48,7 @@ const CustomCursor = () => {
             } else if (target.closest('.music-player-container')) {
                 setCursorVariant('music');
                 setCursorText('🎵');
-            } else if (target.closest('a') || target.closest('button') || target.closest('.menu-trigger') || target.closest('.social-links') || target.closest('.close-btn')) {
+            } else if (target.closest('a') || target.closest('button') || target.closest('input') || target.closest('textarea') || target.closest('.menu-trigger') || target.closest('.social-links') || target.closest('.close-btn')) {
                 setCursorVariant('hover');
                 setCursorText('');
             } else if (target.closest('.strip')) {
