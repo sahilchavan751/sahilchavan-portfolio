@@ -1,236 +1,247 @@
-import React, { useEffect } from 'react'
+import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import Lenis from 'lenis'
 import './AboutInfoPage.css'
 
+// Grid block data — each block is a draggable "Lego" piece
+const initialBlocks = [
+    {
+        id: 'portrait',
+        type: 'image',
+        gridArea: '1 / 1 / 3 / 3',
+        src: '/workspace-images/w1.jpg',
+        alt: 'Sahil Chavan',
+    },
+    {
+        id: 'name',
+        type: 'title',
+        gridArea: '1 / 3 / 2 / 5',
+        label: 'HELLO, I AM',
+        value: 'SAHIL\nCHAVAN',
+    },
+    {
+        id: 'role',
+        type: 'stat',
+        gridArea: '2 / 3 / 3 / 4',
+        label: 'ROLE',
+        value: 'Full-Stack Developer & Visual Creator',
+    },
+    {
+        id: 'location',
+        type: 'stat',
+        gridArea: '2 / 4 / 3 / 5',
+        label: 'BASED IN',
+        value: 'India',
+    },
+    {
+        id: 'bio',
+        type: 'text',
+        gridArea: '3 / 1 / 4 / 3',
+        content: 'I am a multidisciplinary visual creator and developer, blending the lines between technical precision and artistic expression. My journey began with a fascination for storytelling—whether through the lens of a camera or writing elegant code that brings a digital experience to life.',
+    },
+    {
+        id: 'bio2',
+        type: 'text',
+        gridArea: '3 / 3 / 4 / 5',
+        content: 'With extensive experience in both software architecture (C#, .NET, React) and visual media (photography, cinematography), I approach every project as a holistic narrative. I believe the best applications feel less like tools and more like immersive environments.',
+    },
+    {
+        id: 'dev-skills',
+        type: 'skills',
+        gridArea: '4 / 1 / 5 / 3',
+        label: 'DEVELOPMENT',
+        items: ['React / Next.js', 'C# / .NET', 'Creative Coding (GSAP)', 'SQL Server / Firebase'],
+    },
+    {
+        id: 'visual-skills',
+        type: 'skills',
+        gridArea: '4 / 3 / 5 / 5',
+        label: 'VISUAL',
+        items: ['Cinematography', 'Color Grading', 'UI/UX Design', 'Figma Prototyping'],
+    },
+    {
+        id: 'contact',
+        type: 'cta',
+        gridArea: '5 / 1 / 6 / 3',
+        label: 'GET IN TOUCH',
+    },
+    {
+        id: 'status',
+        type: 'stat',
+        gridArea: '5 / 3 / 6 / 4',
+        label: 'STATUS',
+        value: 'Open to Work',
+    },
+    {
+        id: 'year',
+        type: 'stat',
+        gridArea: '5 / 4 / 6 / 5',
+        label: 'SINCE',
+        value: '2022',
+    },
+]
+
+const blockVariants = {
+    hidden: { opacity: 0, scale: 0.92 },
+    visible: (i) => ({
+        opacity: 1,
+        scale: 1,
+        transition: {
+            delay: 0.05 * i,
+            duration: 0.5,
+            ease: [0.22, 1, 0.36, 1],
+        },
+    }),
+}
+
 const AboutInfoPage = () => {
-    // Ensure scroll starts at top and initialize smooth scroll
+    const [blocks, setBlocks] = useState(initialBlocks)
+    const [dragging, setDragging] = useState(null)
+    const [dragOver, setDragOver] = useState(null)
+    const gridRef = useRef(null)
+
     useEffect(() => {
         window.scrollTo(0, 0)
-        
-        const lenis = new Lenis({
-            duration: 1.5,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            smoothWheel: true,
-            wheelMultiplier: 1,
-            smoothTouch: false,
-            touchMultiplier: 2,
-            infinite: false,
-        })
-
-        function raf(time) {
-            lenis.raf(time)
-            requestAnimationFrame(raf)
-        }
-
-        requestAnimationFrame(raf)
-
-        return () => {
-            lenis.destroy()
-        }
     }, [])
+
+    const handleDragStart = useCallback((e, blockId) => {
+        setDragging(blockId)
+        e.dataTransfer.effectAllowed = 'move'
+        // Make the drag ghost transparent
+        const ghost = document.createElement('div')
+        ghost.style.opacity = '0'
+        document.body.appendChild(ghost)
+        e.dataTransfer.setDragImage(ghost, 0, 0)
+        setTimeout(() => document.body.removeChild(ghost), 0)
+    }, [])
+
+    const handleDragOver = useCallback((e, blockId) => {
+        e.preventDefault()
+        if (blockId !== dragging) {
+            setDragOver(blockId)
+        }
+    }, [dragging])
+
+    const handleDragEnd = useCallback(() => {
+        if (dragging && dragOver && dragging !== dragOver) {
+            setBlocks(prev => {
+                const newBlocks = [...prev]
+                const dragIdx = newBlocks.findIndex(b => b.id === dragging)
+                const dropIdx = newBlocks.findIndex(b => b.id === dragOver)
+                if (dragIdx === -1 || dropIdx === -1) return prev
+
+                // Swap grid areas
+                const tempArea = newBlocks[dragIdx].gridArea
+                newBlocks[dragIdx] = { ...newBlocks[dragIdx], gridArea: newBlocks[dropIdx].gridArea }
+                newBlocks[dropIdx] = { ...newBlocks[dropIdx], gridArea: tempArea }
+                return newBlocks
+            })
+        }
+        setDragging(null)
+        setDragOver(null)
+    }, [dragging, dragOver])
+
+    const renderBlock = (block, index) => {
+        const isDragging = dragging === block.id
+        const isOver = dragOver === block.id
+
+        const blockClass = `grid-block grid-block--${block.type} ${isDragging ? 'is-dragging' : ''} ${isOver ? 'is-drag-over' : ''}`
+
+        return (
+            <motion.div
+                key={block.id}
+                className={blockClass}
+                style={{ gridArea: block.gridArea }}
+                draggable
+                onDragStart={(e) => handleDragStart(e, block.id)}
+                onDragOver={(e) => handleDragOver(e, block.id)}
+                onDragEnd={handleDragEnd}
+                custom={index}
+                initial="hidden"
+                animate="visible"
+                variants={blockVariants}
+                layout
+                transition={{ layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }}
+            >
+                {/* Drag handle indicator */}
+                <div className="block-drag-handle">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+
+                {block.type === 'image' && (
+                    <div className="block-image-wrap">
+                        <img src={block.src} alt={block.alt} className="block-portrait" />
+                    </div>
+                )}
+
+                {block.type === 'title' && (
+                    <div className="block-title-content">
+                        <span className="block-label">{block.label}</span>
+                        <h1 className="block-name">{block.value.split('\n').map((line, i) => (
+                            <React.Fragment key={i}>{line}<br /></React.Fragment>
+                        ))}</h1>
+                    </div>
+                )}
+
+                {block.type === 'stat' && (
+                    <div className="block-stat-content">
+                        <span className="block-label">{block.label}</span>
+                        <span className="block-value">{block.value}</span>
+                    </div>
+                )}
+
+                {block.type === 'text' && (
+                    <div className="block-text-content">
+                        <p>{block.content}</p>
+                    </div>
+                )}
+
+                {block.type === 'skills' && (
+                    <div className="block-skills-content">
+                        <span className="block-label">{block.label}</span>
+                        <div className="block-skills-list">
+                            {block.items.map((item, idx) => (
+                                <span className="block-skill-item" key={idx}>{item}</span>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {block.type === 'cta' && (
+                    <a href="#contact" className="block-cta-content">
+                        <span className="block-cta-text">{block.label}</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                    </a>
+                )}
+            </motion.div>
+        )
+    }
 
     return (
         <div className="about-info-page">
-            {/* Top Bar Navigation */}
+            {/* Top Bar */}
             <motion.div
                 className="about-topbar"
-                initial={{ y: -80, opacity: 0 }}
+                initial={{ y: -60, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
                 <Link to="/" className="about-back-link">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter">
                         <polyline points="15 18 9 12 15 6" />
                     </svg>
-                    Back to Home
+                    BACK
                 </Link>
-                <span className="about-topbar-title">About Me</span>
+                <span className="about-topbar-title">ABOUT / INFO</span>
+                <span className="about-topbar-hint">DRAG BLOCKS TO REARRANGE</span>
             </motion.div>
 
-            {/* Page Content */}
-            <div className="about-content-wrapper">
-                {/* Left Column: Image */}
-                <motion.div 
-                    className="about-image-col"
-                    initial={{ opacity: 0, x: -40 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                >
-                    <div className="about-image-container">
-                        <img 
-                            src="/workspace-images/w1.jpg" 
-                            alt="Sahil Chavan Portrait" 
-                            className="about-portrait"
-                        />
-                        <div className="about-image-overlay"></div>
-                    </div>
-                </motion.div>
-
-                {/* Right Column: Text & Bio */}
-                <motion.div 
-                    className="about-text-col"
-                    initial={{ opacity: 0, x: 40 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                >
-                    <div className="about-header-group">
-                        <motion.span 
-                            className="about-calligraphy"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 1, delay: 0.6 }}
-                        >
-                            Hello, I am
-                        </motion.span>
-                        <h1 className="about-title">SAHIL CHAVAN</h1>
-                    </div>
-
-                    <div className="about-bio-content">
-                        <p className="about-bio-lead">
-                            I am a multidisciplinary visual creator and developer, blending the lines between technical precision and artistic expression.
-                        </p>
-                        
-                        <div className="about-bio-body">
-                            <p>
-                                My journey began with a fascination for storytelling—whether through the lens of a camera capturing fleeting moments of urban geometry, or writing elegant code that brings a digital experience to life.
-                            </p>
-                            <p>
-                                With extensive experience in both software architecture (C#, .NET, React) and visual media (photography, cinematography), I approach every project not just as a standalone task, but as a holistic narrative. I believe the best applications feel less like tools and more like immersive environments.
-                            </p>
-                        </div>
-
-                        <div className="about-skills-grid">
-                            <div className="skill-category">
-                                <h3>Development</h3>
-                                <ul>
-                                    <li>React / Next.js</li>
-                                    <li>C# / .NET</li>
-                                    <li>Creative Coding (GSAP)</li>
-                                    <li>SQL Server / Firebase</li>
-                                </ul>
-                            </div>
-                            <div className="skill-category">
-                                <h3>Visual</h3>
-                                <ul>
-                                    <li>Cinematography</li>
-                                    <li>Color Grading</li>
-                                    <li>UI/UX Design</li>
-                                    <li>Figma Prototyping</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div className="about-contact-cta">
-                            <a href="#contact" className="about-cta-link">
-                                GET IN TOUCH
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                </motion.div>
-            </div>
-
-            {/* Divider */}
-            <motion.div 
-                className="about-section-divider"
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true, amount: 0.5 }}
-                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            />
-
-            {/* Second User Section: Digambar Patil */}
-            <div className="about-content-wrapper about-content-wrapper--reverse">
-                {/* Left Column: Text & Bio */}
-                <motion.div 
-                    className="about-text-col about-text-col--left"
-                    initial={{ opacity: 0, x: -40 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                >
-                    <div className="about-header-group">
-                        <motion.span 
-                            className="about-calligraphy"
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1, delay: 0.4 }}
-                        >
-                            Meet
-                        </motion.span>
-                        <h1 className="about-title">DIGAMBAR PATIL</h1>
-                    </div>
-
-                    <div className="about-bio-content">
-                        <p className="about-bio-lead">
-                            A passionate creator and problem-solver who brings ideas to life through technology and creative vision.
-                        </p>
-                        
-                        <div className="about-bio-body">
-                            <p>
-                                Digambar is driven by a relentless curiosity and a deep commitment to craftsmanship. With a strong foundation in modern development practices, he transforms complex challenges into elegant, user-centric solutions.
-                            </p>
-                            <p>
-                                His approach blends analytical thinking with creative intuition—ensuring every project not only functions flawlessly but also delivers a memorable experience. Whether building robust backend systems or polishing pixel-perfect interfaces, Digambar strives for excellence in every detail.
-                            </p>
-                        </div>
-
-                        <div className="about-skills-grid">
-                            <div className="skill-category">
-                                <h3>Development</h3>
-                                <ul>
-                                    <li>React / Next.js</li>
-                                    <li>Node.js / Express</li>
-                                    <li>Python / Django</li>
-                                    <li>MongoDB / PostgreSQL</li>
-                                </ul>
-                            </div>
-                            <div className="skill-category">
-                                <h3>Creative</h3>
-                                <ul>
-                                    <li>UI/UX Design</li>
-                                    <li>Motion Graphics</li>
-                                    <li>Brand Identity</li>
-                                    <li>Visual Storytelling</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div className="about-contact-cta">
-                            <a href="#contact" className="about-cta-link">
-                                GET IN TOUCH
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                </motion.div>
-
-                {/* Right Column: Image */}
-                <motion.div 
-                    className="about-image-col about-image-col--static"
-                    initial={{ opacity: 0, x: 40 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                >
-                    <div className="about-image-container">
-                        <img 
-                            src="/aboutinfo/digambar.jpeg" 
-                            alt="Digambar Patil Portrait" 
-                            className="about-portrait"
-                        />
-                        <div className="about-image-overlay"></div>
-                    </div>
-                </motion.div>
+            {/* Grid */}
+            <div className="about-grid" ref={gridRef}>
+                {blocks.map((block, i) => renderBlock(block, i))}
             </div>
         </div>
     )

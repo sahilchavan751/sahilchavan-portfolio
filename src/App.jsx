@@ -7,7 +7,7 @@ import Menu from './components/Menu'
 import Preloader from './components/Preloader'
 import MusicPlayer from './components/MusicPlayer'
 import Workspace from './components/Workspace'
-import DomeGallery from './components/DomeGallery'
+import TechGrid from './components/TechGrid'
 import About from './components/About'
 import Process from './components/Process'
 import SkillsStrip from './components/SkillsStrip'
@@ -89,20 +89,7 @@ function HomePage({ isMenuOpen, setIsMenuOpen, isLoading, handlePreloaderComplet
                     <Workspace />
                 </div>
 
-                <div className="dome-gallery-wrapper">
-                    <div className="dome-gallery-title">
-                        <h2>STACK</h2>
-                    </div>
-                    <DomeGallery
-                        fit={0.6}
-                        minRadius={400}
-                        maxVerticalRotationDeg={0}
-                        segments={34}
-                        dragDampening={2}
-                        overlayBlurColor="transparent"
-                        grayscale={true}
-                    />
-                </div>
+                <TechGrid />
 
                 <About />
                 <Process />

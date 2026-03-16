@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import './ProjectsPage.css'
 
 const projectsData = [
@@ -8,7 +8,7 @@ const projectsData = [
         id: 1,
         title: 'Billing System',
         language: 'C#',
-        description: 'A robust desktop billing application featuring invoice generation, customer management, and real-time billing workflows.',
+        description: 'A robust desktop billing application featuring invoice generation, customer management, and real-time billing workflows with advanced reporting.',
         stack: ['.NET', 'WPF', 'XAML', 'SQL Server'],
         features: [
             'Automated Invoice generation',
@@ -16,7 +16,7 @@ const projectsData = [
             'Real-time tax calculations',
             'Advanced reporting engine',
         ],
-        accent: 'linear-gradient(135deg, #F4C025 0%, #B88A00 100%)',
+        accent: '#F4C025',
     },
     {
         id: 2,
@@ -30,13 +30,13 @@ const projectsData = [
             '3D Dome gallery system',
             'Audio-visual experience',
         ],
-        accent: 'linear-gradient(135deg, #FFD700 0%, #D4AF37 100%)',
+        accent: '#D4AF37',
     },
     {
         id: 3,
         title: 'Traceless',
         language: 'JavaScript',
-        description: 'A privacy-focused ephemeral content sharing platform built as a high-performance Progressive Web App.',
+        description: 'A privacy-focused ephemeral content sharing platform built as a high-performance Progressive Web App with end-to-end encryption.',
         stack: ['React', 'Firebase', 'Vercel Blob', 'PWA'],
         features: [
             'End-to-end ephemeral sharing',
@@ -44,7 +44,7 @@ const projectsData = [
             'Secure media handling',
             'Offline-first architecture',
         ],
-        accent: 'linear-gradient(135deg, #F4C025 0%, #8A6D0F 100%)',
+        accent: '#C9A227',
     },
     {
         id: 4,
@@ -58,123 +58,130 @@ const projectsData = [
             'Emergency location sharing',
             'Gesture-based interaction',
         ],
-        accent: 'linear-gradient(135deg, #4A90E2 0%, #1A5FB4 100%)',
+        accent: '#4A90E2',
+    },
+    {
+        id: 5,
+        title: 'Mathon',
+        language: 'JavaScript (JSX)',
+        description: 'A dynamic marathon hosting agency platform enabling organizers to create, manage, and promote marathon events with real-time participant tracking.',
+        stack: ['React', 'Vite', 'Node.js', 'Firebase', 'Framer Motion'],
+        features: [
+            'Event creation & management',
+            'Real-time participant tracking',
+            'Registration & payment flow',
+            'Dynamic route mapping',
+        ],
+        accent: '#E85D3A',
     },
 ]
 
-const cardVariants = {
-    hidden: { opacity: 0, scale: 0.9, y: 50 },
-    visible: (i) => ({
+const blockVariants = {
+    hidden: { opacity: 0, y: 60, scale: 0.97 },
+    visible: {
         opacity: 1,
-        scale: 1,
         y: 0,
-        transition: {
-            delay: 0.15 * i,
-            duration: 0.9,
-            ease: [0.16, 1, 0.3, 1],
-        },
-    }),
+        scale: 1,
+        transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+    },
 }
 
-const modalVariants = {
-    hidden: { opacity: 0, backdropFilter: 'blur(0px)', scale: 1.05 },
-    visible: { 
-        opacity: 1, 
-        backdropFilter: 'blur(40px)', 
-        scale: 1,
-        transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+const staggerContainer = {
+    hidden: {},
+    visible: {
+        transition: { staggerChildren: 0.06, delayChildren: 0.15 },
     },
-    exit: { 
-        opacity: 0, 
-        backdropFilter: 'blur(0px)',
-        scale: 1.02,
-        transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] }
-    }
+}
+
+const staggerItem = {
+    hidden: { opacity: 0, y: 12 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
+    },
 }
 
 const ProjectsPage = () => {
-    const [selectedProject, setSelectedProject] = useState(null)
-
-    // Close modal on Escape
-    useEffect(() => {
-        const handleEsc = (e) => {
-            if (e.key === 'Escape') setSelectedProject(null)
-        }
-        window.addEventListener('keydown', handleEsc)
-        return () => window.removeEventListener('keydown', handleEsc)
-    }, [])
-
-    // Lock body scroll when modal is open
-    useEffect(() => {
-        if (selectedProject) {
-            document.body.style.overflow = 'hidden'
-        } else {
-            document.body.style.overflow = ''
-        }
-        return () => { document.body.style.overflow = '' }
-    }, [selectedProject])
-
     return (
         <div className="projects-page">
             {/* Top Bar */}
             <motion.div
                 className="projects-topbar"
-                initial={{ y: -80, opacity: 0 }}
+                initial={{ y: -60, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
                 <Link to="/" className="projects-back-link">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter">
                         <polyline points="15 18 9 12 15 6" />
                     </svg>
-                    Back to Home
+                    BACK
                 </Link>
-                <span className="projects-topbar-title">Case Studies</span>
+                <span className="projects-topbar-title">PROJECTS / 0{projectsData.length}</span>
             </motion.div>
 
-            {/* Header */}
-            <motion.div
-                className="projects-header"
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            >
-                <h1>Selected Works</h1>
-                <p>A curated collection of projects spanning desktop applications, web experiences, and immersive progressive web apps.</p>
-            </motion.div>
-
-            {/* Project Cards Grid */}
-            <div className="projects-grid">
+            {/* Cube Grid */}
+            <div className="projects-cube-grid">
                 {projectsData.map((project, i) => (
                     <motion.div
                         key={project.id}
-                        className="project-card"
-                        style={{ '--card-accent': project.accent }}
-                        custom={i}
+                        className="cube-card"
+                        style={{ '--cube-accent': project.accent }}
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{ once: true, margin: "-100px" }}
-                        variants={cardVariants}
-                        onClick={() => setSelectedProject(project)}
+                        viewport={{ once: true, margin: "-60px" }}
+                        variants={blockVariants}
                     >
-                        <span className="card-number">0{project.id}</span>
-                        
-                        <div className="card-content">
-                            <h2 className="card-title">{project.title}</h2>
-                            <p className="card-language">{project.language}</p>
-                            <p className="card-description">{project.description}</p>
-                            <div className="card-tags">
-                                {project.stack.slice(0, 3).map((tech) => (
-                                    <span className="card-tag" key={tech}>{tech}</span>
-                                ))}
-                                {project.stack.length > 3 && (
-                                    <span className="card-tag">+{project.stack.length - 3}</span>
-                                )}
-                            </div>
+                        {/* Top edge accent */}
+                        <div className="cube-accent-bar" />
+
+                        {/* Header row */}
+                        <div className="cube-header">
+                            <span className="cube-number">0{project.id}</span>
+                            <span className="cube-lang">{project.language}</span>
                         </div>
 
-                        <div className="card-arrow">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        {/* Title */}
+                        <h2 className="cube-title">{project.title}</h2>
+
+                        {/* Description */}
+                        <p className="cube-desc">{project.description}</p>
+
+                        {/* Features */}
+                        <motion.div
+                            className="cube-features"
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, margin: "-40px" }}
+                            variants={staggerContainer}
+                        >
+                            {project.features.map((feat, idx) => (
+                                <motion.div className="cube-feature" key={idx} variants={staggerItem}>
+                                    <span className="feature-dot" />
+                                    {feat}
+                                </motion.div>
+                            ))}
+                        </motion.div>
+
+                        {/* Stack Tags */}
+                        <motion.div
+                            className="cube-tags"
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, margin: "-40px" }}
+                            variants={staggerContainer}
+                        >
+                            {project.stack.map((tech) => (
+                                <motion.span className="cube-tag" key={tech} variants={staggerItem}>
+                                    {tech}
+                                </motion.span>
+                            ))}
+                        </motion.div>
+
+                        {/* Arrow */}
+                        <div className="cube-arrow">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter">
                                 <line x1="7" y1="17" x2="17" y2="7" />
                                 <polyline points="7 7 17 7 17 17" />
                             </svg>
@@ -182,59 +189,6 @@ const ProjectsPage = () => {
                     </motion.div>
                 ))}
             </div>
-
-            {/* Detail Modal */}
-            <AnimatePresence>
-                {selectedProject && (
-                    <motion.div
-                        className="project-modal-backdrop"
-                        initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-                        animate={{ opacity: 1, backdropFilter: 'blur(30px)' }}
-                        exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-                        transition={{ duration: 0.5 }}
-                        onClick={() => setSelectedProject(null)}
-                    >
-                        <motion.div
-                            className="project-modal"
-                            style={{ '--card-accent': selectedProject.accent }}
-                            variants={modalVariants}
-                            initial="hidden"
-                            animate="visible"
-                            exit="exit"
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <button className="modal-close-btn" onClick={() => setSelectedProject(null)}>✕</button>
-
-                            <div className="modal-accent-line" />
-                            <span className="modal-number">PROJECT 0{selectedProject.id}</span>
-                            <h2 className="modal-title">{selectedProject.title}</h2>
-                            <span className="modal-language-badge">{selectedProject.language}</span>
-
-                            <div className="modal-content-grid">
-                                <div>
-                                    <h4 className="modal-section-title">Overview</h4>
-                                    <p className="modal-description">{selectedProject.description}</p>
-                                    
-                                    <h4 className="modal-section-title" style={{ marginTop: '3rem' }}>Key Features</h4>
-                                    <ul className="modal-features">
-                                        {selectedProject.features.map((feat, idx) => (
-                                            <li key={idx}>{feat}</li>
-                                        ))}
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h4 className="modal-section-title">Tech Stack</h4>
-                                    <div className="modal-tags">
-                                        {selectedProject.stack.map((tech) => (
-                                            <span className="modal-tag" key={tech}>{tech}</span>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
         </div>
     )
 }

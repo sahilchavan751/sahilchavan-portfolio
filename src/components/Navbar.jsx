@@ -8,7 +8,7 @@ const Navbar = ({ onMenuOpen }) => {
                 <div className="logo-icon">
                     <img src={sahilImg} alt="Sahil Chavan" className="logo-img" />
                 </div>
-                <span className="logo-text">SAHIL CHAVAN</span>
+                <span className="logo-text">SAHIL CHAVAN — 21</span>
             </div>
             <div className="menu-trigger" onClick={onMenuOpen}>
                 <span className="menu-btn-text">MENU</span>

@@ -18,7 +18,19 @@ const CustomCursor = () => {
         const handleMouseEnter = (e) => {
             const target = e.target;
 
-            if (target.closest('.logo-text')) {
+            if (target.closest('.grid-block--cta')) {
+                setCursorVariant('gridCta');
+                setCursorText('CLICK');
+            } else if (target.closest('.grid-block--image')) {
+                setCursorVariant('gridGrab');
+                setCursorText('✦');
+            } else if (target.closest('.grid-block')) {
+                setCursorVariant('gridMove');
+                setCursorText('MOVE');
+            } else if (target.closest('.cube-card')) {
+                setCursorVariant('view');
+                setCursorText('VIEW');
+            } else if (target.closest('.logo-text')) {
                 setCursorVariant('me');
                 setCursorText('itss mee ❤️');
             } else if (target.closest('.footer-title')) {
@@ -219,6 +231,42 @@ const CustomCursor = () => {
             height: 40,
             borderRadius: '50%',
             boxShadow: '0 0 15px rgba(255,255,255,0.15)'
+        },
+        gridMove: {
+            x: mousePosition.x - 32,
+            y: mousePosition.y - 16,
+            scale: 1,
+            backgroundColor: 'rgba(244, 192, 37, 0.95)',
+            mixBlendMode: 'normal',
+            border: 'none',
+            color: '#000',
+            width: 64,
+            height: 32,
+            borderRadius: '0px'
+        },
+        gridGrab: {
+            x: mousePosition.x - 24,
+            y: mousePosition.y - 24,
+            scale: 1,
+            backgroundColor: 'transparent',
+            mixBlendMode: 'difference',
+            border: '2px solid rgba(255, 255, 255, 0.8)',
+            color: '#fff',
+            width: 48,
+            height: 48,
+            borderRadius: '0px'
+        },
+        gridCta: {
+            x: mousePosition.x - 36,
+            y: mousePosition.y - 16,
+            scale: 1,
+            backgroundColor: '#fff',
+            mixBlendMode: 'normal',
+            border: 'none',
+            color: '#000',
+            width: 72,
+            height: 32,
+            borderRadius: '0px'
         }
     };
 
@@ -244,8 +292,8 @@ const CustomCursor = () => {
                         <div className="vf-dot"></div>
                     </>
                 )}
-                {(cursorVariant === 'play' || cursorVariant === 'drag' || cursorVariant === 'scroll' || cursorVariant === 'send' || cursorVariant === 'view' || cursorVariant === 'go' || cursorVariant === 'me' || cursorVariant === 'music') && (
-                    <span className="cursor-text" style={{ fontSize: (cursorVariant === 'scroll' || cursorVariant === 'send' || cursorVariant === 'view' || cursorVariant === 'go' || cursorVariant === 'me' || cursorVariant === 'music') ? '0.7rem' : '0.45rem' }}>{cursorText}</span>
+                {(cursorVariant === 'play' || cursorVariant === 'drag' || cursorVariant === 'scroll' || cursorVariant === 'send' || cursorVariant === 'view' || cursorVariant === 'go' || cursorVariant === 'me' || cursorVariant === 'music' || cursorVariant === 'gridMove' || cursorVariant === 'gridGrab' || cursorVariant === 'gridCta') && (
+                    <span className="cursor-text" style={{ fontSize: (cursorVariant === 'scroll' || cursorVariant === 'send' || cursorVariant === 'view' || cursorVariant === 'go' || cursorVariant === 'me' || cursorVariant === 'music' || cursorVariant === 'gridMove' || cursorVariant === 'gridCta') ? '0.7rem' : (cursorVariant === 'gridGrab' ? '0.9rem' : '0.45rem') }}>{cursorText}</span>
                 )}
             </motion.div>
         </>

@@ -100,6 +100,47 @@ const Hero = () => {
 
     return (
         <section className="hero" ref={containerRef}>
+            {/* Geometric Grid & Background */}
+            <div className="hero-blueprint">
+                <div className="blueprint-grid"></div>
+                <div className="blueprint-lines">
+                    <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <motion.path 
+                            d="M 0 20 L 100 20" 
+                            stroke="rgba(255,255,255,0.05)" 
+                            strokeWidth="0.1"
+                            initial={{ pathLength: 0 }}
+                            animate={{ pathLength: 1 }}
+                            transition={{ duration: 1.5, delay: 1 }}
+                        />
+                        <motion.path 
+                            d="M 0 80 L 100 80" 
+                            stroke="rgba(255,255,255,0.05)" 
+                            strokeWidth="0.1"
+                            initial={{ pathLength: 0 }}
+                            animate={{ pathLength: 1 }}
+                            transition={{ duration: 1.5, delay: 1.2 }}
+                        />
+                        <motion.path 
+                            d="M 20 0 L 20 100" 
+                            stroke="rgba(255,255,255,0.05)" 
+                            strokeWidth="0.1"
+                            initial={{ pathLength: 0 }}
+                            animate={{ pathLength: 1 }}
+                            transition={{ duration: 1.5, delay: 1.4 }}
+                        />
+                        <motion.path 
+                            d="M 80 0 L 80 100" 
+                            stroke="rgba(255,255,255,0.05)" 
+                            strokeWidth="0.1"
+                            initial={{ pathLength: 0 }}
+                            animate={{ pathLength: 1 }}
+                            transition={{ duration: 1.5, delay: 1.6 }}
+                        />
+                    </svg>
+                </div>
+            </div>
+
             <div className="video-background">
                 <video
                     ref={videoRef}
@@ -113,73 +154,69 @@ const Hero = () => {
                     <source src={videos[currentVideo].src} type="video/mp4" />
                 </video>
                 <div className="grain-overlay"></div>
+                <div className="hero-scanline"></div>
             </div>
 
             <div className="hero-content">
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, delay: 0.5 }}
-                    className="hero-subtitle"
+                    className="hero-tag"
                 >
-                    DEV, DIRECTOR, EDITOR
+                    <span className="tag-text">DEV, DIRECTOR, EDITOR</span>
                 </motion.div>
 
-                <div className="hero-main-title" style={{ position: 'relative', display: 'inline-block' }}>
-                    <motion.h1
-                        className="sahil-text"
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, delay: 0.7 }}
-                    >
-                        SAHIL
-                    </motion.h1>
-                    <motion.h2
-                        className="chavan-text"
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, delay: 0.9 }}
-                    >
-                        CHAVAN
-                    </motion.h2>
-                    <motion.div
-                        className="age-text"
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, delay: 1.1 }}
-                    >
-                        AGE-21
-                    </motion.div>
+                <div className="hero-main-title">
+                    <div className="title-bounding-box">
+                        <motion.h1
+                            className="sahil-text"
+                            initial={{ opacity: 0, scale: 0.98 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1, delay: 0.7 }}
+                        >
+                            SAHIL
+                        </motion.h1>
+                        
+                        {/* Geometric corners for the title box */}
+                        <div className="title-corner tl"></div>
+                        <div className="title-corner tr"></div>
+                        <div className="title-corner bl"></div>
+                        <div className="title-corner br"></div>
+                    </div>
                 </div>
-
             </div>
 
-            <div className="hero-bottom">
-                <div className="social-links">
-                    <a href="https://www.instagram.com/sahnoir_" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
-                    <a href="https://www.youtube.com/@sahil.mp4752" target="_blank" rel="noopener noreferrer">YOUTUBE</a>
-                    <a href="#">LINKEDIN</a>
-                    <a href="#">BEHANCE</a>
-                </div>
-
-                <div className="scroll-hint">
-                    <div className="mouse-indicator">
-                        <div className="mouse-wheel"></div>
+            <div className="hero-bottom-bar">
+                <div className="bottom-left">
+                    <div className="social-links-minimal">
+                        <a href="https://www.instagram.com/sahnoir_" target="_blank" rel="noopener noreferrer">IG</a>
+                        <a href="https://www.youtube.com/@sahil.mp4752" target="_blank" rel="noopener noreferrer">YT</a>
+                        <a href="#">LI</a>
+                        <a href="#">BE</a>
                     </div>
                 </div>
 
-                <div className="location">
-                    <span className="marker">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" height="12" r="3"></circle>
-                        </svg>
-                    </span>
-                    <span>NASHIK, MH — {time} GMT+5:30</span>
+                <div className="bottom-center">
+                    <div className="scroll-box">
+                        <span className="scroll-text">SCROLL TO DISCOVER</span>
+                        <div className="scroll-progress-line">
+                            <motion.div 
+                                className="progress-fill"
+                                animate={{ width: ["0%", "100%", "0%"] }}
+                                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="bottom-right">
+                    <div className="location-technical">
+                        <div className="loc-header">LOCAL_COORDINATES</div>
+                        <div className="loc-data">NASHIK, MH — {time} GMT+5:30</div>
+                    </div>
                 </div>
             </div>
         </section>
