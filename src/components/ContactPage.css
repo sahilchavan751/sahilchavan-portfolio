@@ -3,8 +3,8 @@
 
 .contact-page {
     min-height: 100vh;
-    background-color: #0A0A0A;
-    color: #fff;
+    background-color: #FFFFFF;
+    color: #000000;
     font-family: 'Space Grotesk', sans-serif;
     position: relative;
     overflow-x: hidden;
@@ -16,8 +16,8 @@
     position: fixed;
     inset: 0;
     background-image:
-        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+        linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
     background-size: 40px 40px;
     pointer-events: none;
     z-index: 0;
@@ -35,10 +35,10 @@
     justify-content: space-between;
     padding: 0 2rem;
     height: 52px;
-    background: rgba(10, 10, 10, 0.92);
+    background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
 }
 
 .contact-back-link {
@@ -80,7 +80,7 @@
 
 @keyframes hintPulse {
     0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; color: #F4C025; }
+    50% { opacity: 1; color: #000000; }
 }
 
 /* ===== Main Grid ===== */
@@ -90,7 +90,7 @@
     grid-template-rows: repeat(5, auto);
     gap: 1px;
     padding-top: 52px;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.1);
     position: relative;
     z-index: 1;
     min-height: calc(100vh - 52px);
@@ -98,13 +98,14 @@
 
 /* ===== Grid Block (base) ===== */
 .contact-grid-block {
-    background: #0A0A0A;
+    background: #FFFFFF;
     padding: 2.5rem 2rem;
     position: relative;
     cursor: grab;
     transition: background 0.4s ease, box-shadow 0.4s ease;
     overflow: hidden;
     user-select: none;
+    border: 1px solid rgba(0,0,0,0.05);
 }
 
 .contact-grid-block:active {
@@ -112,7 +113,7 @@
 }
 
 .contact-grid-block:hover {
-    background: #111111;
+    background: #F9F9F9;
 }
 
 /* Drag states */
@@ -122,8 +123,8 @@
 }
 
 .contact-grid-block.is-drag-over {
-    background: #161616;
-    box-shadow: inset 0 0 0 2px #F4C025;
+    background: #F0F0F0;
+    box-shadow: inset 0 0 0 2px #000000;
 }
 
 /* --- Drag handle dots --- */
@@ -145,7 +146,7 @@
 .block-drag-handle span {
     width: 4px;
     height: 4px;
-    background: #fff;
+    background: #000;
 }
 
 /* --- Block Labels/Titles --- */
@@ -165,7 +166,7 @@
     font-size: clamp(3rem, 6vw, 5.5rem);
     font-weight: 700;
     line-height: 0.9;
-    color: #fff;
+    color: #000;
     letter-spacing: -0.01em;
     text-transform: uppercase;
     margin: 0;
@@ -175,7 +176,7 @@
     font-family: 'Space Grotesk', sans-serif;
     font-size: 1.1rem;
     font-weight: 600;
-    color: #fff;
+    color: #000;
     line-height: 1.3;
 }
 
@@ -196,7 +197,7 @@
 }
 
 .contact-block--social:hover svg {
-    color: #F4C025;
+    color: #000000;
     transform: translate(2px, -2px);
 }
 
@@ -210,10 +211,10 @@
 .form-input-row input,
 .form-input-row textarea {
     width: 100%;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     padding: 1.25rem;
-    color: #fff;
+    color: #000;
     font-family: 'Space Mono', monospace;
     font-size: 0.8rem;
     letter-spacing: 0.1em;
@@ -223,8 +224,8 @@
 
 .form-input-row input:focus,
 .form-input-row textarea:focus {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: #F4C025;
+    background: rgba(0, 0, 0, 0.03);
+    border-color: #000000;
 }
 
 .form-submit-btn {
@@ -233,8 +234,8 @@
     justify-content: space-between;
     padding: 1.25rem;
     background: transparent;
-    border: 1px solid #F4C025;
-    color: #F4C025;
+    border: 1px solid #000000;
+    color: #000000;
     font-family: 'Space Mono', monospace;
     font-weight: 700;
     font-size: 0.75rem;
@@ -245,8 +246,8 @@
 }
 
 .form-submit-btn:hover {
-    background: #F4C025;
-    color: #0A0A0A;
+    background: #000000;
+    color: #FFFFFF;
 }
 
 .form-submit-btn svg {

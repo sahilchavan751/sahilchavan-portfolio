@@ -49,8 +49,12 @@ const About = () => {
                 scrollTrigger: {
                     trigger: containerRef.current,
                     pin: true,
-                    scrub: 1.5,
-                    end: () => "+=" + (containerRef.current.offsetWidth * 3)
+                    scrub: 1,
+                    start: "top top",
+                    // The end determines the duration of the horizontal scroll
+                    end: () => `+=${scrollRef.current.offsetWidth}`,
+                    anticipatePin: 1,
+                    invalidateOnRefresh: true,
                 }
             });
 

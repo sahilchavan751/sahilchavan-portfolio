@@ -54,46 +54,57 @@ const Menu = ({ isOpen, onClose }) => {
                     transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
                     className="full-screen-menu"
                 >
-                    <div className="menu-header">
-                        <div className="logo">
-                            <div className="logo-icon">
-                                <img src={sahilImg} alt="Sahil Chavan" className="logo-img" />
+                    <div className="menu-block-layout">
+                        {/* Header Block */}
+                        <div className="menu-header-block">
+                            <div className="logo">
+                                <span className="logo-text">SAHIL CHAVAN</span>
                             </div>
-                            <span className="logo-text">SAHIL CHAVAN</span>
+                            <div className="close-btn" onClick={onClose}>
+                                <span>CLOSE</span>
+                                <div className="close-icon">✕</div>
+                            </div>
                         </div>
-                        <div className="close-btn" onClick={onClose}>
-                            <span>CLOSE</span>
-                            <div className="close-icon">✕</div>
-                        </div>
-                    </div>
 
-                    <nav className="menu-nav">
-                        <ul>
+                        {/* Navigation Grid Blocks */}
+                        <nav className="menu-nav-blocks">
                             {menuItems.map((item, index) => (
-                                <motion.li
+                                <motion.div
                                     key={item.label}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.4 + index * 0.1 }}
+                                    className="nav-block-cell"
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: 0.2 + index * 0.1, duration: 0.5 }}
                                 >
-                                    <a href={item.href} onClick={(e) => handleLinkClick(e, item.href)}>
-                                        {item.label}
+                                    <a 
+                                        href={item.href} 
+                                        className="nav-block-link"
+                                        onClick={(e) => handleLinkClick(e, item.href)}
+                                    >
+                                        <div className="nav-block-content">
+                                            <span className="nav-index">{(index + 1).toString().padStart(2, '0')}</span>
+                                            <h2>{item.label}</h2>
+                                        </div>
                                     </a>
-                                </motion.li>
+                                </motion.div>
                             ))}
-                        </ul>
-                    </nav>
+                        </nav>
 
-                    <div className="menu-footer">
-                        <div className="footer-col">
-                            <span className="footer-label">INQUIRIES</span>
-                            <a href="mailto:sahilsbc751@gmail.com">sahilsbc751@gmail.com</a>
-                        </div>
-                        <div className="footer-col social">
-                            <a href="https://www.instagram.com/sahnoir_" target="_blank" rel="noopener noreferrer">INSTAGRAM ↗</a>
-                            <a href="https://www.youtube.com/@sahil.mp4752" target="_blank" rel="noopener noreferrer">YOUTUBE ↗</a>
-                            <a href="#">LINKEDIN ↗</a>
-                            <a href="#">BEHANCE ↗</a>
+                        {/* Footer Grid Blocks */}
+                        <div className="menu-footer-blocks">
+                            <div className="footer-block-cell contact-cell">
+                                <span className="footer-label">INQUIRIES</span>
+                                <a href="mailto:sahilsbc751@gmail.com" className="footer-email-link">SAHILSBC751@GMAIL.COM</a>
+                            </div>
+                            <div className="footer-block-cell social-cell">
+                                <span className="footer-label">SOCIALS</span>
+                                <div className="social-links-row">
+                                    <a href="https://www.instagram.com/sahnoir_" target="_blank" rel="noopener noreferrer">IG</a>
+                                    <a href="https://www.youtube.com/@sahil.mp4752" target="_blank" rel="noopener noreferrer">YT</a>
+                                    <a href="#">LI</a>
+                                    <a href="#">BE</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </motion.div>

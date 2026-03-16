@@ -65,8 +65,8 @@
     /* very small because it scales up */
     font-weight: 800;
     letter-spacing: 1px;
-    color: #000;
-    /* Dark text for contrast against solid cursor bg */
+    color: #fff;
+    /* White text for contrast against black cursor bg */
 }
 
 /* Fallback for touch devices */

@@ -1,9 +1,8 @@
-import React from 'react'
 import sahilImg from '../assets/about-image/sahil-chavan.jpg'
 
 const Navbar = ({ onMenuOpen }) => {
     return (
-        <nav className="navbar">
+        <nav className="navbar navbar--light">
             <div className="logo">
                 <div className="logo-icon">
                     <img src={sahilImg} alt="Sahil Chavan" className="logo-img" />

@@ -3,16 +3,16 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: dark;
-  color: #FFFFFF;
-  background-color: #0F0E0B;
-  /* Deep dark brown/black from screenshot */
+  color-scheme: light;
+  color: #000000;
+  background-color: #FFFFFF;
+  /* High contrast white theme */
 
-  --accent: #F4C025;
-  /* Gold/Yellow accent color */
-  --bg-dark: #0F0E0B;
-  --text-muted: #8E8B7B;
-  --text-secondary: #B4B1A0;
+  --accent: #000000;
+  /* Black accent color */
+  --bg-dark: #FFFFFF;
+  --text-muted: #666666;
+  --text-secondary: #333333;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -26,15 +26,11 @@
   box-sizing: border-box;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  * {
-    cursor: none !important;
-  }
-}
+
 
 ::selection {
   background-color: var(--accent);
-  color: #000000;
+  color: #FFFFFF;
 }
 
 body {

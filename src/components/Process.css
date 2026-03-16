@@ -1,18 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&display=swap');
 
 .process-section {
-    height: 100vh;
-    padding: 40px 60px;
-    background-color: #0A0908;
+    min-height: 100vh;
+    padding: 60px 20px;
+    background-color: #FFFFFF;
     position: relative;
     display: flex;
     flex-direction: column;
+    justify-content: center; /* Center the entire blocky grid vertically */
+    align-items: center;
 }
 
 .process-header {
     text-align: center;
-    margin-bottom: 20px;
+    padding: 0 20px 40px;
+    background-color: transparent;
     flex-shrink: 0;
+    width: 100%;
 }
 
 .process-calligraphy {
@@ -25,33 +29,37 @@
 
 .process-title {
     font-family: 'Humane', sans-serif;
-    font-size: clamp(4rem, 12vw, 10rem);
-    color: #fff;
+    font-size: clamp(3rem, 10vw, 8rem); /* Scaled down slightly so grid is focus */
+    color: #000;
     line-height: 0.8;
     letter-spacing: 2px;
     text-transform: uppercase;
 }
 
-/* Precise 4x3 Grid for 100vh coverage */
 .bento-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    gap: 12px;
-    flex: 1;
-    min-height: 0;
-    overflow: hidden;
-    max-width: 1800px;
-    margin: 0 auto;
+    grid-template-rows: repeat(3, 200px); /* Fixed rows for perfect structural blockiness */
+    gap: 15px; /* distinct structural gap */
     width: 100%;
+    max-width: 1100px; /* Constrain to make blocks much smaller and tighter */
+    margin: 0 auto;
+    padding: 0;
 }
 
 .bento-item {
-    background: #111;
-    border-radius: 4px;
+    background: #000000;
+    border-radius: 0; /* Sharp architectural edges */
     overflow: hidden;
     position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 2px solid #000000; /* Sharp outline framing each tile */
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.15); /* Brutalist block drop shadow */
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.bento-item:hover {
+    box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.2);
+    transform: translate(-2px, -2px); /* Slight lift on hover */
 }
 
 .card-image-wrapper {
@@ -74,38 +82,39 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.4); /* Less dim for better image visibility */
     display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    backdrop-filter: blur(8px);
-    padding: 20px;
+    align-items: flex-end; /* Title at bottom like reference */
+    justify-content: flex-start;
+    padding: 30px;
+    opacity: 1; /* Always visible slightly, fully visible on hover */
+    transition: all 0.5s ease;
 }
 
 .card-title {
     font-family: 'Space Grotesk', sans-serif;
     color: #fff;
-    font-size: 0.9rem;
-    letter-spacing: 4px;
-    font-weight: 300;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    font-weight: 500;
     text-transform: uppercase;
-    transform: translateY(15px);
-    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    transform: translateY(10px);
+    opacity: 0.8;
+    transition: all 0.4s ease;
 }
 
 /* Hover Effects */
 .bento-item:hover .card-image-wrapper img {
-    transform: scale(1.1);
+    transform: scale(1.05); /* Subtle scale */
 }
 
 .bento-item:hover .card-overlay {
-    opacity: 1;
+    background: rgba(0, 0, 0, 0.7); /* Darkens on hover to pop text */
 }
 
 .bento-item:hover .card-title {
     transform: translateY(0);
+    opacity: 1;
 }
 
 /* Grid Logic */
@@ -121,34 +130,25 @@
 @media (max-width: 1024px) {
     .bento-grid {
         grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(6, 1fr);
-    }
-
-    .process-section {
-        height: auto;
-        padding: 100px 40px;
+        grid-template-rows: repeat(6, 300px);
     }
 }
 
 @media (max-width: 768px) {
-    .process-section {
-        height: auto;
-        padding: 60px 12px;
-    }
-
     .process-header {
-        margin-bottom: 15px;
+        padding: 40px 15px 30px;
     }
 
     .process-title {
-        font-size: 4rem;
+        font-size: 5rem;
     }
 
     .bento-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        grid-auto-rows: 180px;
-        gap: 8px;
+        grid-auto-rows: 160px;
+        gap: 12px;
+        max-width: 100%;
     }
 
     /* Reset all desktop spanning for mobile */

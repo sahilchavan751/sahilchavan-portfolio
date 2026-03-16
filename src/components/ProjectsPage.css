@@ -2,15 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Antonio:wght@400;700&display=swap');
 
 :root {
-    --gold: #F4C025;
-    --gold-dark: #B88A00;
-    --black: #0A0A0A;
-    --black-soft: #111111;
-    --surface: #161616;
-    --border: rgba(255, 255, 255, 0.07);
-    --border-hover: rgba(255, 255, 255, 0.15);
-    --text-muted: #6B6B6B;
-    --text-dim: #4A4A4A;
+    --gold: #000000;
+    --gold-dark: #333333;
+    --black: #FFFFFF;
+    --black-soft: #F9F9F9;
+    --white: #000000;
+    --gray-muted: #666666;
+    --border: rgba(0, 0, 0, 0.1);
 }
 
 * {
@@ -20,10 +18,12 @@
 .projects-page {
     min-height: 100vh;
     background-color: var(--black);
-    color: #fff;
+    color: var(--white);
     font-family: 'Space Grotesk', sans-serif;
     position: relative;
     overflow-x: hidden;
+    --text-muted: #666666;
+    --text-dim: #333333;
 }
 
 /* --- Subtle grid background --- */
@@ -32,8 +32,8 @@
     position: fixed;
     inset: 0;
     background-image:
-        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
     background-size: 60px 60px;
     pointer-events: none;
     z-index: 0;
@@ -51,7 +51,7 @@
     justify-content: space-between;
     padding: 0 3rem;
     height: 60px;
-    background: rgba(10, 10, 10, 0.9);
+    background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
@@ -61,7 +61,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
-    color: var(--text-muted);
+    color: var(--gray-muted);
     font-family: 'Space Mono', monospace;
     font-size: 0.65rem;
     letter-spacing: 0.25em;
@@ -71,7 +71,7 @@
 }
 
 .projects-back-link:hover {
-    color: #fff;
+    color: var(--black);
 }
 
 .projects-topbar-title {
@@ -79,7 +79,7 @@
     font-size: 0.65rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--text-muted);
+    color: var(--gray-muted);
     font-weight: 700;
 }
 
@@ -108,7 +108,7 @@
 }
 
 .cube-card:hover {
-    background: var(--surface);
+    background: var(--black-soft);
 }
 
 /* Accent bar at top */
@@ -170,7 +170,7 @@
     font-family: 'Space Grotesk', sans-serif;
     font-size: clamp(2rem, 3.5vw, 3.5rem);
     font-weight: 700;
-    color: #fff;
+    color: var(--white);
     letter-spacing: -0.03em;
     line-height: 1;
     text-transform: uppercase;
@@ -204,7 +204,7 @@
     font-size: 0.75rem;
     color: var(--text-muted);
     padding: 0.65rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
     letter-spacing: 0.02em;
     transition: color 0.3s ease;
 }
@@ -214,7 +214,7 @@
 }
 
 .cube-card:hover .cube-feature {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(0, 0, 0, 0.6);
 }
 
 .feature-dot {

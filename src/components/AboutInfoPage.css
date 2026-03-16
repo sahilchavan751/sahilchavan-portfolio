@@ -7,8 +7,8 @@
 
 .about-info-page {
     min-height: 100vh;
-    background-color: #0A0A0A;
-    color: #fff;
+    background-color: #FFFFFF;
+    color: #000000;
     font-family: 'Space Grotesk', sans-serif;
     position: relative;
     overflow-x: hidden;
@@ -20,8 +20,8 @@
     position: fixed;
     inset: 0;
     background-image:
-        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+        linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
     background-size: 40px 40px;
     pointer-events: none;
     z-index: 0;
@@ -39,10 +39,10 @@
     justify-content: space-between;
     padding: 0 2rem;
     height: 52px;
-    background: rgba(10, 10, 10, 0.92);
+    background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
 }
 
 .about-back-link {
@@ -84,7 +84,7 @@
 
 @keyframes hintPulse {
     0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; color: #F4C025; }
+    50% { opacity: 1; color: #FFFFFF; }
 }
 
 /* ===== Main Grid ===== */
@@ -94,7 +94,7 @@
     grid-template-rows: repeat(5, auto);
     gap: 1px;
     padding-top: 52px;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.1);
     position: relative;
     z-index: 1;
     min-height: calc(100vh - 52px);
@@ -102,13 +102,14 @@
 
 /* ===== Grid Block (base) ===== */
 .grid-block {
-    background: #0A0A0A;
+    background: #FFFFFF;
     padding: 2.5rem 2rem;
     position: relative;
     cursor: grab;
     transition: background 0.4s ease, box-shadow 0.4s ease;
     overflow: hidden;
     user-select: none;
+    border: 1px solid rgba(0,0,0,0.05);
 }
 
 .grid-block:active {
@@ -116,7 +117,7 @@
 }
 
 .grid-block:hover {
-    background: #111111;
+    background: #F9F9F9;
 }
 
 /* Drag states */
@@ -126,8 +127,8 @@
 }
 
 .grid-block.is-drag-over {
-    background: #161616;
-    box-shadow: inset 0 0 0 2px #F4C025;
+    background: #F0F0F0;
+    box-shadow: inset 0 0 0 2px #000000;
 }
 
 /* --- Drag handle dots (top-right corner) --- */
@@ -143,13 +144,13 @@
 }
 
 .grid-block:hover .block-drag-handle {
-    opacity: 0.3;
+    opacity: 0.8; /* Make grip dots much more visible on hover */
 }
 
 .block-drag-handle span {
     width: 4px;
     height: 4px;
-    background: #fff;
+    background: #000000;
 }
 
 /* ===== Block Types ===== */
@@ -203,7 +204,7 @@
     font-size: clamp(3rem, 6vw, 5.5rem);
     font-weight: 700;
     line-height: 0.9;
-    color: #fff;
+    color: #000;
     letter-spacing: -0.02em;
     text-transform: uppercase;
     margin: 0;
@@ -222,7 +223,7 @@
     font-family: 'Space Grotesk', sans-serif;
     font-size: 1.1rem;
     font-weight: 600;
-    color: #fff;
+    color: #000;
     line-height: 1.3;
 }
 
@@ -234,10 +235,11 @@
 }
 
 .block-text-content p {
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 0.95rem;
-    color: #8A8A8A;
+    color: #000000; /* Force black for full legibility over global white styles */
     line-height: 1.75;
-    font-weight: 300;
+    font-weight: 500;
 }
 
 /* --- Skills Block --- */
@@ -256,9 +258,9 @@
 
 .block-skill-item {
     font-size: 0.85rem;
-    color: #9A9A9A;
+    color: #333333;
     padding: 0.7rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     transition: color 0.3s ease;
 }
 
@@ -267,7 +269,7 @@
 }
 
 .grid-block:hover .block-skill-item {
-    color: #ccc;
+    color: #000000;
 }
 
 /* --- CTA Block --- */
@@ -277,7 +279,7 @@
     justify-content: space-between;
     height: 100%;
     text-decoration: none;
-    color: #fff;
+    color: #000;
     transition: all 0.4s ease;
 }
 
@@ -295,15 +297,15 @@
 }
 
 .grid-block--cta:hover {
-    background: #F4C025;
+    background: #000000;
 }
 
 .grid-block--cta:hover .block-cta-content {
-    color: #0A0A0A;
+    color: #FFFFFF;
 }
 
 .grid-block--cta:hover .block-cta-content svg {
-    color: #0A0A0A;
+    color: #FFFFFF;
     transform: translateX(8px);
 }
 

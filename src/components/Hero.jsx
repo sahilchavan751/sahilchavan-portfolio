@@ -12,8 +12,48 @@ const Hero = () => {
     const [fade, setFade] = useState(true)
     const [isVisible, setIsVisible] = useState(true)
     const [time, setTime] = useState('')
+    const [isPlaying, setIsPlaying] = useState(false)
     const videoRef = useRef(null)
     const containerRef = useRef(null)
+
+    // Sync with global music state
+    useEffect(() => {
+        const handlePause = () => setIsPlaying(false);
+        const handleResume = () => setIsPlaying(true);
+        window.addEventListener('bg-music-paused', handlePause);
+        window.addEventListener('bg-music-resumed', handleResume);
+        
+        // Robust initial state check
+        const checkInitialState = () => {
+            const globalAudio = document.querySelector('audio');
+            if (globalAudio) {
+                setIsPlaying(!globalAudio.paused);
+            }
+        };
+
+        checkInitialState();
+        // Also check if audio gets added/starts later
+        const timer = setTimeout(checkInitialState, 1000);
+
+        return () => {
+            window.removeEventListener('bg-music-paused', handlePause);
+            window.removeEventListener('bg-music-resumed', handleResume);
+            clearTimeout(timer);
+        };
+    }, []);
+
+    const toggleMusic = (e) => {
+        e?.stopPropagation(); 
+        // Expansion is the primary action requested: "touch to open popup"
+        window.dispatchEvent(new CustomEvent('open-music-player'));
+        
+        // Now it also toggles playback
+        if (isPlaying) {
+            window.dispatchEvent(new CustomEvent('pause-bg-music'));
+        } else {
+            window.dispatchEvent(new CustomEvent('resume-bg-music'));
+        }
+    };
 
     // Intersection Observer for auto-pause
     useEffect(() => {
@@ -213,6 +253,18 @@ const Hero = () => {
                 </div>
 
                 <div className="bottom-right">
+                    <div className="hero-music-block" onClick={toggleMusic}>
+                        <div className={`music-visualizer ${isPlaying ? 'active' : ''}`}>
+                            <div className="v-bar"></div>
+                            <div className="v-bar"></div>
+                            <div className="v-bar"></div>
+                            <div className="v-bar"></div>
+                        </div>
+                        <div className="music-meta">
+                            <span className="meta-label">AUDIO.EXE</span>
+                            <span className="meta-status">{isPlaying ? 'PLAYING' : 'PAUSED'}</span>
+                        </div>
+                    </div>
                     <div className="location-technical">
                         <div className="loc-header">LOCAL_COORDINATES</div>
                         <div className="loc-data">NASHIK, MH — {time} GMT+5:30</div>

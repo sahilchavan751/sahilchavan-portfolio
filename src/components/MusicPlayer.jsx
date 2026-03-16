@@ -22,6 +22,7 @@ const MusicPlayer = () => {
                 audioRef.current.muted = false
                 setIsMuted(false)
                 setIsPlaying(true)
+                window.dispatchEvent(new CustomEvent('bg-music-resumed'));
             }
             document.removeEventListener('click', startOnFirstClick)
         }
@@ -33,10 +34,11 @@ const MusicPlayer = () => {
     // Listen for custom events to coordinate with Workspace videos
     useEffect(() => {
         const handlePauseRequest = () => {
-            if (audioRef.current && isPlaying && !isMuted) {
+            if (audioRef.current && isPlaying) {
                 audioRef.current.pause()
                 setIsPlaying(false)
                 audioRef.current.dataset.autoPaused = "true"
+                window.dispatchEvent(new CustomEvent('bg-music-paused'));
             }
         }
 
@@ -44,16 +46,24 @@ const MusicPlayer = () => {
             if (audioRef.current && audioRef.current.dataset.autoPaused === "true") {
                 audioRef.current.play().catch(() => { })
                 setIsPlaying(true)
+                audioRef.current.muted = false;
+                setIsMuted(false);
                 audioRef.current.dataset.autoPaused = "false"
+                window.dispatchEvent(new CustomEvent('bg-music-resumed'));
             }
         }
 
         window.addEventListener('pause-bg-music', handlePauseRequest)
         window.addEventListener('resume-bg-music', handleResumeRequest)
 
+        // Listen for expansion request from Hero
+        const handleOpenRequest = () => setIsExpanded(true);
+        window.addEventListener('open-music-player', handleOpenRequest);
+
         return () => {
             window.removeEventListener('pause-bg-music', handlePauseRequest)
             window.removeEventListener('resume-bg-music', handleResumeRequest)
+            window.removeEventListener('open-music-player', handleOpenRequest);
         }
     }, [isPlaying, isMuted])
 
@@ -70,9 +80,13 @@ const MusicPlayer = () => {
         if (isPlaying) {
             audio.pause()
             setIsPlaying(false)
+            audio.dataset.autoPaused = "false" // Manual stop
+            window.dispatchEvent(new CustomEvent('bg-music-paused'));
         } else {
             audio.play().catch(() => { })
             setIsPlaying(true)
+            audio.dataset.autoPaused = "false"
+            window.dispatchEvent(new CustomEvent('bg-music-resumed'));
             if (isMuted) {
                 audio.muted = false
                 setIsMuted(false)
@@ -119,20 +133,6 @@ const MusicPlayer = () => {
                 <source src="/solitude.mp3" type="audio/mpeg" />
             </audio>
 
-            {!isExpanded && (
-                <button
-                    className="music-toggle"
-                    onClick={toggleExpand}
-                    aria-label="Open music player"
-                >
-                    <div className={`music-icon ${isPlaying && !isMuted ? 'playing' : ''}`}>
-                        <span className="bar"></span>
-                        <span className="bar"></span>
-                        <span className="bar"></span>
-                        <span className="bar"></span>
-                    </div>
-                </button>
-            )}
 
             {isExpanded && (
                 <div className="music-window">

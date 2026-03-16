@@ -1,6 +1,8 @@
 import { useState, useCallback, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Lenis from 'lenis'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Menu from './components/Menu'
@@ -36,6 +38,15 @@ function HomePage({ isMenuOpen, setIsMenuOpen, isLoading, handlePreloaderComplet
         })
 
         window.lenis = lenis;
+
+        // Synchronize ScrollTrigger with Lenis
+        lenis.on('scroll', ScrollTrigger.update);
+
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+        });
+
+        gsap.ticker.lagSmoothing(0);
 
         const handleHashLinks = (e) => {
             const target = e.target.closest('a');

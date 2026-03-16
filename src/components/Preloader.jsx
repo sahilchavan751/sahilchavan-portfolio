@@ -1,9 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react'
 
 const Preloader = ({ onComplete }) => {
-    const [phase, setPhase] = useState('enter') // enter -> hold -> exit
+    const [phase, setPhase] = useState('enter') 
     const [progress, setProgress] = useState(0)
     const isExiting = useRef(false)
+    
+    // Generate an array of 25 blocks (5x5 grid)
+    const blocks = Array.from({ length: 25 }, (_, i) => i)
+    // Create random delays for the exit animation of each block (in seconds)
+    const [delays, setDelays] = useState([])
+
+    useEffect(() => {
+        // Assign random delays between 0 and 0.8s for the block vanishing
+        setDelays(blocks.map(() => Math.random() * 0.8))
+    }, [])
 
     // Progress animation
     useEffect(() => {
@@ -27,9 +37,10 @@ const Preloader = ({ onComplete }) => {
             isExiting.current = true
             setPhase('exit')
 
+            // Wait for the longest staggered block animation to finish (~1.2s total)
             const timer = setTimeout(() => {
                 onComplete()
-            }, 2300) // Match CSS transition (2s) + buffer
+            }, 1200) 
 
             return () => clearTimeout(timer)
         }
@@ -41,38 +52,34 @@ const Preloader = ({ onComplete }) => {
     }, [progress, onComplete, phase])
 
     return (
-        <div className={`preloader horizontal-split ${phase}`}>
-            <div className="preloader-content-wrapper">
-                <div className="preloader-title">
-                    <svg viewBox="0 0 600 150" className="wave-logo-svg">
-                        <defs>
-                            <clipPath id="wave-clip">
-                                <path
-                                    className="wave-path"
-                                    d={`M -100 ${125 - (progress * 1.1)} 
-                                       Q 50 ${105 - (progress * 1.1)} 200 ${125 - (progress * 1.1)} 
-                                       T 500 ${125 - (progress * 1.1)} 
-                                       T 800 ${125 - (progress * 1.1)} 
-                                       V 150 H -100 Z`}
-                                />
-                            </clipPath>
-                        </defs>
-
-                        {/* Background Text (Outline/Gray) */}
-                        <text x="50%" y="50%" dy=".35em" textAnchor="middle" className="text-bg">
-                            SAHIL
-                        </text>
-
-                        {/* Foreground Text (Filled with Wave) */}
-                        <text x="50%" y="50%" dy=".35em" textAnchor="middle" className="text-fg" clipPath="url(#wave-clip)">
-                            SAHIL
-                        </text>
-                    </svg>
-                </div>
+        <div className={`preloader blocky-grid ${phase}`}>
+            {/* The 5x5 White Grid Backdrop */}
+            <div className="preloader-bg-wrapper">
+                {blocks.map((index) => (
+                    <div 
+                        key={index} 
+                        className="preloader-bg-block"
+                        style={{
+                            transitionDelay: phase === 'exit' ? `${delays[index]}s` : '0s'
+                        }}
+                    ></div>
+                ))}
             </div>
 
-            <div className="shutter-half top"></div>
-            <div className="shutter-half bottom"></div>
+            {/* Foreground Content: Title and Progress Bar */}
+            <div className="preloader-content-wrapper">
+                <div className="preloader-text-container">
+                    <h1 className="preloader-hero-title">INITIATING</h1>
+                    <span className="preloader-percentage">{Math.floor(progress)}%</span>
+                </div>
+                
+                <div className="preloader-bar-container">
+                    <div 
+                        className="preloader-bar-fill" 
+                        style={{ width: `${progress}%` }}
+                    ></div>
+                </div>
+            </div>
         </div>
     )
 }

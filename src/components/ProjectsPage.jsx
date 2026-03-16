@@ -16,7 +16,7 @@ const projectsData = [
             'Real-time tax calculations',
             'Advanced reporting engine',
         ],
-        accent: '#F4C025',
+        accent: '#000000',
     },
     {
         id: 2,
