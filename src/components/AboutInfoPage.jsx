@@ -134,6 +134,104 @@ const AboutInfoPage = () => {
                     </div>
                 </motion.div>
             </div>
+
+            {/* Divider */}
+            <motion.div 
+                className="about-section-divider"
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            />
+
+            {/* Second User Section: Digambar Patil */}
+            <div className="about-content-wrapper about-content-wrapper--reverse">
+                {/* Left Column: Text & Bio */}
+                <motion.div 
+                    className="about-text-col about-text-col--left"
+                    initial={{ opacity: 0, x: -40 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                >
+                    <div className="about-header-group">
+                        <motion.span 
+                            className="about-calligraphy"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1, delay: 0.4 }}
+                        >
+                            Meet
+                        </motion.span>
+                        <h1 className="about-title">DIGAMBAR PATIL</h1>
+                    </div>
+
+                    <div className="about-bio-content">
+                        <p className="about-bio-lead">
+                            A passionate creator and problem-solver who brings ideas to life through technology and creative vision.
+                        </p>
+                        
+                        <div className="about-bio-body">
+                            <p>
+                                Digambar is driven by a relentless curiosity and a deep commitment to craftsmanship. With a strong foundation in modern development practices, he transforms complex challenges into elegant, user-centric solutions.
+                            </p>
+                            <p>
+                                His approach blends analytical thinking with creative intuition—ensuring every project not only functions flawlessly but also delivers a memorable experience. Whether building robust backend systems or polishing pixel-perfect interfaces, Digambar strives for excellence in every detail.
+                            </p>
+                        </div>
+
+                        <div className="about-skills-grid">
+                            <div className="skill-category">
+                                <h3>Development</h3>
+                                <ul>
+                                    <li>React / Next.js</li>
+                                    <li>Node.js / Express</li>
+                                    <li>Python / Django</li>
+                                    <li>MongoDB / PostgreSQL</li>
+                                </ul>
+                            </div>
+                            <div className="skill-category">
+                                <h3>Creative</h3>
+                                <ul>
+                                    <li>UI/UX Design</li>
+                                    <li>Motion Graphics</li>
+                                    <li>Brand Identity</li>
+                                    <li>Visual Storytelling</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div className="about-contact-cta">
+                            <a href="#contact" className="about-cta-link">
+                                GET IN TOUCH
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </motion.div>
+
+                {/* Right Column: Image */}
+                <motion.div 
+                    className="about-image-col about-image-col--static"
+                    initial={{ opacity: 0, x: 40 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                >
+                    <div className="about-image-container">
+                        <img 
+                            src="/aboutinfo/digambar.jpeg" 
+                            alt="Digambar Patil Portrait" 
+                            className="about-portrait"
+                        />
+                        <div className="about-image-overlay"></div>
+                    </div>
+                </motion.div>
+            </div>
         </div>
     )
 }

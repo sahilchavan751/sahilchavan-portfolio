@@ -74,30 +74,31 @@
     z-index: 2;
     max-width: 1600px;
     margin: 0 auto;
-    display: flex; /* Changed from grid to flex to support fixed left column */
-    justify-content: flex-end; /* Push right column over */
-    align-items: start;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 60px;
     min-height: calc(100vh - 120px);
 }
 
 /* Left Column: Image */
 .about-image-col {
-    position: fixed;
+    position: sticky;
     top: 120px;
-    left: 40px; /* Accounts for page padding */
-    width: calc(45% - 40px); /* Roughly matches the 1fr / 1.2fr ratio width */
-    height: calc(100vh - 160px);
+    width: 40%;
+    flex-shrink: 0;
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding-right: 40px;
+    justify-content: center;
+    align-items: flex-start;
     z-index: 5;
+    align-self: flex-start;
 }
 
 .about-image-container {
     position: relative;
     width: 100%;
-    max-width: 550px;
+    max-width: 420px;
     aspect-ratio: 3/4;
     border-radius: 4px;
     overflow: hidden;
@@ -141,9 +142,11 @@
     flex-direction: column;
     justify-content: center;
     padding-left: 0;
-    width: 60%; /* Increased width slightly */
+    width: 60%;
     max-width: 800px;
-    margin-left: auto;
+    flex-shrink: 1;
+    overflow: hidden;
+    min-height: 0;
 }
 
 .about-header-group {
@@ -165,13 +168,15 @@
 
 .about-title {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(2rem, 4vw, 3.5rem); /* Much smaller to fit one line */
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
     color: #fff;
     margin: 0;
     line-height: 1.1;
     letter-spacing: -1px;
     text-transform: uppercase;
     font-weight: 600;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .about-bio-lead {
@@ -287,6 +292,70 @@
     stroke: #000;
 }
 
+/* Section Divider */
+.about-section-divider {
+    width: 80%;
+    max-width: 1200px;
+    height: 1px;
+    margin: 100px auto;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(189, 147, 84, 0.4) 20%, 
+        rgba(189, 147, 84, 0.6) 50%, 
+        rgba(189, 147, 84, 0.4) 80%, 
+        transparent 100%
+    );
+    position: relative;
+    z-index: 2;
+    transform-origin: center;
+}
+
+.about-section-divider::after {
+    content: '✦';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8rem;
+    color: var(--accent);
+    background-color: #0A0908;
+    padding: 0 20px;
+}
+
+/* Reverse layout for second section */
+.about-content-wrapper--reverse {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 60px;
+    position: relative;
+    z-index: 2;
+    max-width: 1600px;
+    margin: 0 auto;
+    min-height: auto;
+}
+
+.about-text-col--left {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* Static image column (not fixed) for sections below the first */
+.about-image-col--static {
+    position: sticky;
+    top: 120px;
+    width: 40%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-right: 0;
+    padding-top: 0;
+    flex-shrink: 0;
+    align-self: flex-start;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
     .about-content-wrapper {
@@ -339,6 +408,20 @@
     .about-bio-body p {
         max-width: 100%;
     }
+
+    .about-content-wrapper--reverse {
+        flex-direction: column;
+    }
+
+    .about-image-col--static {
+        width: 100%;
+        justify-content: center;
+        order: -1;
+    }
+
+    .about-section-divider {
+        margin: 60px auto;
+    }
 }
 
 @media (max-width: 768px) {
@@ -365,5 +448,9 @@
     .skill-category h3::after {
         left: 50%;
         transform: translateX(-50%);
+    }
+
+    .about-section-divider {
+        margin: 40px auto;
     }
 }
