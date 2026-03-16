@@ -132,6 +132,8 @@ export default function DomeGallery({
     const openingRef = useRef(false);
     const openStartedAtRef = useRef(0);
     const lastDragEndAt = useRef(0);
+    const autoRotateRAF = useRef(null);
+    const autoRotatePaused = useRef(false);
 
     const scrollLockedRef = useRef(false);
     const lockScroll = useCallback(() => {
@@ -243,6 +245,27 @@ export default function DomeGallery({
 
     useEffect(() => {
         applyTransform(rotationRef.current.x, rotationRef.current.y);
+    }, []);
+
+    // Auto-rotate effect
+    useEffect(() => {
+        const AUTO_ROTATE_SPEED = 0.015; // degrees per frame – slow drift
+        let lastTime = performance.now();
+        const tick = (now) => {
+            const delta = now - lastTime;
+            lastTime = now;
+            if (!autoRotatePaused.current && !draggingRef.current && !focusedElRef.current && !inertiaRAF.current) {
+                const step = AUTO_ROTATE_SPEED * (delta / 16.67); // normalise to ~60fps
+                const nextY = wrapAngleSigned(rotationRef.current.y + step);
+                rotationRef.current = { x: rotationRef.current.x, y: nextY };
+                applyTransform(rotationRef.current.x, nextY);
+            }
+            autoRotateRAF.current = requestAnimationFrame(tick);
+        };
+        autoRotateRAF.current = requestAnimationFrame(tick);
+        return () => {
+            if (autoRotateRAF.current) cancelAnimationFrame(autoRotateRAF.current);
+        };
     }, []);
 
     const stopInertia = useCallback(() => {
