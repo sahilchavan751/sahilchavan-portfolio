@@ -46,6 +46,20 @@ const projectsData = [
         ],
         accent: 'linear-gradient(135deg, #F4C025 0%, #8A6D0F 100%)',
     },
+    {
+        id: 4,
+        title: 'Blind App',
+        language: 'Java',
+        description: 'An innovative assistive Android application designed to empower visually impaired users with real-time environment recognition and audio navigation.',
+        stack: ['Java', 'Android SDK', 'TensorFlow Lite', 'Google Vision API', 'Firebase'],
+        features: [
+            'Real-time object detection',
+            'Text-to-speech navigation',
+            'Emergency location sharing',
+            'Gesture-based interaction',
+        ],
+        accent: 'linear-gradient(135deg, #4A90E2 0%, #1A5FB4 100%)',
+    },
 ]
 
 const cardVariants = {
