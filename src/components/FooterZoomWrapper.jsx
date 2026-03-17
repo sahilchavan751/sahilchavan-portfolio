@@ -15,16 +15,21 @@ const FooterZoomWrapper = () => {
             const el = clipRef.current;
             if (!el) return;
 
-            // Animate clip-path from a small centered card to full screen
-            // inset(top right bottom left round borderRadius)
+            // Animate CSS variables instead of raw clip-path strings for bulletproof rendering
             gsap.fromTo(el,
                 {
-                    clipPath: "inset(10% 5% 45% 5% round 24px)",
-                    webkitClipPath: "inset(10% 5% 45% 5% round 24px)",
+                    "--clip-top": "10%",
+                    "--clip-right": "5%",
+                    "--clip-bottom": "45%",
+                    "--clip-left": "5%",
+                    "--clip-rad": "24px",
                 },
                 {
-                    clipPath: "inset(0% 0% 0% 0% round 0px)",
-                    webkitClipPath: "inset(0% 0% 0% 0% round 0px)",
+                    "--clip-top": "0%",
+                    "--clip-right": "0%",
+                    "--clip-bottom": "0%",
+                    "--clip-left": "0%",
+                    "--clip-rad": "0px",
                     ease: "none",
                     scrollTrigger: {
                         trigger: wrapperRef.current,
