@@ -2,245 +2,160 @@
 
 .process-section {
     min-height: 100vh;
-    padding: 60px 20px;
+    padding: 100px 5% 0 5%; /* Switch to percentage-based padding for scale, 0 bottom padding to let footer touch */
     background-color: #FFFFFF;
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center the entire blocky grid vertically */
+    justify-content: flex-start;
     align-items: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .process-header {
     text-align: center;
-    padding: 0 20px 40px;
+    padding: 0 20px 60px;
     background-color: transparent;
     flex-shrink: 0;
     width: 100%;
 }
 
-.process-calligraphy {
-    font-family: 'Mrs Saint Delafield', cursive;
-    font-size: clamp(2rem, 3.5vw, 3rem);
-    color: var(--accent);
-    margin-bottom: -15px;
-    opacity: 0.8;
+.creative-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    color: #000000;
+    margin-bottom: 10px;
+    font-weight: 700;
 }
 
 .process-title {
     font-family: 'Humane', sans-serif;
-    font-size: clamp(3rem, 10vw, 8rem); /* Scaled down slightly so grid is focus */
+    font-size: clamp(4rem, 12vw, 10rem); 
     color: #000;
     line-height: 0.8;
     letter-spacing: 2px;
     text-transform: uppercase;
+    margin: 0;
 }
 
-.bento-grid {
+/* ===== NEW CREATIVE BLOCK GRID (4 Columns) ===== */
+.creative-block-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(3, 200px); /* Fixed rows for perfect structural blockiness */
-    gap: 15px; /* distinct structural gap */
+    grid-template-columns: repeat(4, 1fr); /* 4 equal horizontal columns */
+    gap: 0;
     width: 100%;
-    max-width: 1100px; /* Constrain to make blocks much smaller and tighter */
     margin: 0 auto;
-    padding: 0;
+    border: 1px solid #000000;
+    max-width: 100%; 
 }
 
-.bento-item {
-    background: #000000;
-    border-radius: 0; /* Sharp architectural edges */
-    overflow: hidden;
+/* Individual Block Styling */
+.creative-block-item {
+    background-color: #FFFFFF;
+    border: 1px solid #000000; 
+    margin: -1px 0 0 -1px; 
+    padding: 40px;
     position: relative;
-    border: 2px solid #000000; /* Sharp outline framing each tile */
-    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.15); /* Brutalist block drop shadow */
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.bento-item:hover {
-    box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.2);
-    transform: translate(-2px, -2px); /* Slight lift on hover */
-}
-
-.card-image-wrapper {
-    width: 100%;
-    height: 100%;
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    aspect-ratio: 1 / 1; /* Reset to perfect square */
+    cursor: crosshair;
     overflow: hidden;
 }
 
-.card-image-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+/* Big Number styling */
+.block-number {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(4rem, 5vw, 6rem);
+    font-weight: 700;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(0,0,0,0.2);
+    line-height: 1;
+    margin-bottom: auto; /* Push content to bottom */
+    z-index: 2; /* Sit above hover bg */
+    transition: color 0.4s ease, -webkit-text-stroke 0.4s ease;
 }
 
-.card-overlay {
+.creative-block-item:hover .block-number {
+    color: rgba(255, 255, 255, 0.1);
+    -webkit-text-stroke: 1px rgba(255,255,255,0.4);
+}
+
+/* Content Container */
+.block-content {
+    z-index: 2;
+    margin-top: 40px;
+}
+
+.block-name {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.2rem, 2vw, 1.8rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin: 0 0 10px 0;
+}
+
+.block-desc {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+    max-width: 90%;
+}
+
+/* Top Right SVG Arrow */
+.block-arrow {
     position: absolute;
-    top: 0;
+    top: 40px;
+    right: 40px;
+    color: #000000;
+    z-index: 2;
+    transition: color 0.4s ease;
+}
+
+.creative-block-item:hover .block-arrow {
+    color: #FFFFFF;
+}
+
+/* Animated Hover Background */
+.hover-bg {
+    position: absolute;
+    bottom: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4); /* Less dim for better image visibility */
-    display: flex;
-    align-items: flex-end; /* Title at bottom like reference */
-    justify-content: flex-start;
-    padding: 30px;
-    opacity: 1; /* Always visible slightly, fully visible on hover */
-    transition: all 0.5s ease;
+    background-color: #000000;
+    transform-origin: bottom;
+    z-index: 1; /* Below text, above base background */
 }
 
-.card-title {
-    font-family: 'Space Grotesk', sans-serif;
-    color: #fff;
-    font-size: 1rem;
-    letter-spacing: 2px;
-    font-weight: 500;
-    text-transform: uppercase;
-    transform: translateY(10px);
-    opacity: 0.8;
-    transition: all 0.4s ease;
-}
-
-/* Hover Effects */
-.bento-item:hover .card-image-wrapper img {
-    transform: scale(1.05); /* Subtle scale */
-}
-
-.bento-item:hover .card-overlay {
-    background: rgba(0, 0, 0, 0.7); /* Darkens on hover to pop text */
-}
-
-.bento-item:hover .card-title {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-/* Grid Logic */
-.tall {
-    grid-row: span 2;
-}
-
-.wide {
-    grid-column: span 2;
-}
-
-/* Responsive */
-@media (max-width: 1024px) {
-    .bento-grid {
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1200px) {
+    .creative-block-grid {
         grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(6, 300px);
     }
 }
 
 @media (max-width: 768px) {
+    .process-section {
+        padding: 80px 5% 0 5%;
+    }
+
     .process-header {
-        padding: 40px 15px 30px;
+        padding-bottom: 40px;
     }
 
-    .process-title {
-        font-size: 5rem;
+    .creative-block-grid {
+        grid-template-columns: 1fr; /* Single column on mobile */
     }
 
-    .bento-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-auto-rows: 160px;
-        gap: 12px;
-        max-width: 100%;
+    .creative-block-item {
+        aspect-ratio: auto;
+        min-height: 350px;
+        padding: 30px;
     }
 
-    /* Reset all desktop spanning for mobile */
-    .tall,
-    .wide,
-    .small {
-        grid-column: span 1 !important;
-        grid-row: span 1 !important;
-    }
-}
-
-/* ========== Fullscreen Lightbox ========== */
-.lightbox-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.92);
-    backdrop-filter: blur(20px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999999;
-    cursor: pointer !important;
-    pointer-events: auto;
-}
-
-.lightbox-content {
-    position: relative;
-    max-width: 85vw;
-    max-height: 85vh;
-    cursor: default;
-}
-
-.lightbox-image {
-    width: 100%;
-    height: 100%;
-    max-width: 85vw;
-    max-height: 80vh;
-    object-fit: contain;
-    border-radius: 4px;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
-}
-
-.lightbox-info {
-    position: absolute;
-    bottom: -40px;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-.lightbox-title {
-    font-family: 'Space Grotesk', sans-serif;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.85rem;
-    letter-spacing: 5px;
-    font-weight: 300;
-    text-transform: uppercase;
-}
-
-.lightbox-close {
-    position: fixed;
-    top: 30px;
-    right: 40px;
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #fff;
-    font-size: 1.2rem;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer !important;
-    pointer-events: auto;
-    transition: all 0.3s ease;
-    z-index: 9999999;
-}
-
-.lightbox-close:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.6);
-    transform: rotate(90deg);
-}
-
-/* Hide navigation header globally when lightbox is open */
-body.lightbox-open .navbar {
-    display: none !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
 }

@@ -12,8 +12,7 @@ import Workspace from './components/Workspace'
 import TechGrid from './components/TechGrid'
 import About from './components/About'
 import Process from './components/Process'
-import SkillsStrip from './components/SkillsStrip'
-import Footer from './components/Footer'
+import FooterZoomWrapper from './components/FooterZoomWrapper'
 import CustomCursor from './components/CustomCursor'
 import ProjectsPage from './components/ProjectsPage'
 import AboutInfoPage from './components/AboutInfoPage'
@@ -105,9 +104,7 @@ function HomePage({ isMenuOpen, setIsMenuOpen, isLoading, handlePreloaderComplet
 
                 <About />
                 <Process />
-                <SkillsStrip />
-
-                <Footer />
+                <FooterZoomWrapper />
             </main>
 
             <Menu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />

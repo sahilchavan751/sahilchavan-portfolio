@@ -1,41 +1,19 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useRef, useLayoutEffect } from 'react';
+import { motion } from 'framer-motion';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Process.css';
-const processItems = [
-    { id: 1, title: "PLANNING", image: "/process-images/brainstorming.jpg", size: "tall" },
-    { id: 2, title: "PLANNING", image: "/process-images/planning.jpg", size: "small" },
-    { id: 3, title: "DESIGNING", image: "/process-images/designing.jpg", size: "wide" },
-    { id: 4, title: "CODING", image: "/process-images/coding.jpg", size: "small" },
-    { id: 5, title: "DIRECTING", image: "/process-images/directing.jpg", size: "small" },
-    { id: 6, title: "TESTING", image: "/process-images/testing.jpg", size: "small" },
-    { id: 7, title: "REVIEWING", image: "/process-images/reviewing.jpg", size: "wide" },
-    { id: 8, title: "DEPLOYING", image: "/process-images/deploying.jpg", size: "small" },
-    { id: 9, title: "LAUNCH", image: "/process-images/launch.jpg", size: "small" }
+
+gsap.registerPlugin(ScrollTrigger);
+
+const processBlocks = [
+    { id: '01', className: 'block-1', title: "DISCOVERY", desc: "Understanding the core problem, user needs, and business goals." },
+    { id: '02', className: 'block-2', title: "STRATEGY & DESIGN", desc: "Mapping out user flows, architecture, and crafting the visual identity." },
+    { id: '03', className: 'block-3', title: "DEVELOPMENT", desc: "Executing robust front-end and back-end architecture with precision." },
+    { id: '04', className: 'block-4', title: "DEPLOYMENT", desc: "Rigorous testing, final launch, domain setup, and client handoff." }
 ];
 
 const Process = () => {
-    const sectionRef = useRef(null);
-    const [selectedImage, setSelectedImage] = useState(null);
-
-    // Close lightbox on Escape key
-    useEffect(() => {
-        const handleEsc = (e) => {
-            if (e.key === 'Escape') setSelectedImage(null);
-        };
-        window.addEventListener('keydown', handleEsc);
-        return () => window.removeEventListener('keydown', handleEsc);
-    }, []);
-
-    // Hide header when lightbox is open
-    useEffect(() => {
-        if (selectedImage) {
-            document.body.classList.add('lightbox-open');
-        } else {
-            document.body.classList.remove('lightbox-open');
-        }
-        return () => document.body.classList.remove('lightbox-open');
-    }, [selectedImage]);
-
     const splitText = (text) => {
         return text.split('').map((char, i) => (
             <motion.span
@@ -61,106 +39,72 @@ const Process = () => {
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.05,
+                staggerChildren: 0.1,
                 delayChildren: 0.2
             }
         }
     };
 
-    const itemVariants = {
-        hidden: { scale: 0.95, opacity: 0 },
+    const blockVariants = {
+        hidden: { scale: 0.95, opacity: 0, y: 20 },
         visible: {
             scale: 1,
             opacity: 1,
+            y: 0,
             transition: {
-                duration: 0.8,
+                duration: 0.6,
                 ease: "easeOut"
             }
         }
     };
 
     return (
-        <>
-            <section id="process" className="process-section" ref={sectionRef}>
-                <div className="process-header">
-                    <motion.div
-                        className="process-calligraphy"
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        transition={{ duration: 1.5 }}
-                    >
-                        Behind the Scenes
-                    </motion.div>
-                    <h2 className="process-title">{splitText('THE PROCESS')}</h2>
-                </div>
-
+        <section id="process" className="process-section">
+            <div className="process-header">
                 <motion.div
-                    className="bento-grid"
-                    variants={containerVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-100px" }}
+                    className="creative-label"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 1 }}
+                    viewport={{ once: true }}
                 >
-                    {processItems.map((item) => (
-                        <motion.div
-                            key={item.id}
-                            className={`bento-item ${item.size}`}
-                            variants={itemVariants}
-                            onClick={() => setSelectedImage(item)}
-                            whileTap={{ scale: 0.97 }}
-                        >
-                            <div className="card-image-wrapper">
-                                <img src={item.image} alt={item.title} />
-                                <div className="card-overlay">
-                                    <span className="card-title">{item.title}</span>
-                                </div>
-                            </div>
-                        </motion.div>
-                    ))}
+                    [METHODOLOGY]
                 </motion.div>
-            </section>
+                <h2 className="process-title">{splitText('THE PROCESS')}</h2>
+            </div>
 
-            {/* Fullscreen Lightbox */}
-            <AnimatePresence>
-                {selectedImage && (
+            <motion.div
+                className="creative-block-grid"
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+            >
+                {/* 4 Process Blocks in a single row */}
+                {processBlocks.map((block) => (
                     <motion.div
-                        className="lightbox-backdrop"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.4 }}
-                        onClick={() => setSelectedImage(null)}
+                        key={block.id}
+                        className={`creative-block-item ${block.className}`}
+                        variants={blockVariants}
+                        whileHover="hover"
+                        initial="rest"
                     >
-                        <button
-                            className="lightbox-close"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setSelectedImage(null);
-                            }}
-                        >
-                            ✕
-                        </button>
-                        <motion.div
-                            className="lightbox-content"
-                            initial={{ scale: 0.8, opacity: 0, y: 30 }}
-                            animate={{ scale: 1, opacity: 1, y: 0 }}
-                            exit={{ scale: 0.85, opacity: 0, y: 20 }}
-                            transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <img
-                                src={selectedImage.image}
-                                alt={selectedImage.title}
-                                className="lightbox-image"
-                            />
-                            <div className="lightbox-info">
-                                <span className="lightbox-title">{selectedImage.title}</span>
-                            </div>
+                        <motion.div className="block-number" variants={{ rest: { y: 0 }, hover: { y: -10 } }} transition={{ duration: 0.3 }}>
+                            {block.id}
                         </motion.div>
+                        <div className="block-content">
+                            <motion.h3 className="block-name" variants={{ rest: { color: "#000000" }, hover: { color: "#FFFFFF" } }}>{block.title}</motion.h3>
+                            <motion.p className="block-desc" variants={{ rest: { color: "rgba(0,0,0,0.6)", opacity: 1 }, hover: { color: "rgba(255,255,255,0.8)", opacity: 1 } }}>{block.desc}</motion.p>
+                        </div>
+                        <motion.div className="block-arrow" variants={{ rest: { rotate: 0, scale: 1 }, hover: { rotate: 45, scale: 1.2 } }} transition={{ duration: 0.3 }}>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                        </motion.div>
+                        <motion.div className="hover-bg" variants={{ rest: { scaleY: 0 }, hover: { scaleY: 1 } }} transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }} />
                     </motion.div>
-                )}
-            </AnimatePresence>
-        </>
+                ))}
+            </motion.div>
+
+        </section>
     );
 };
 
