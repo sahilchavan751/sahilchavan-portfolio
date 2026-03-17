@@ -108,19 +108,53 @@ const Footer = () => {
         draggingRef.current = null;
     }, [dragging, dragOver]);
 
-    // --- Touch Handlers for Mobile ---
+    // --- Long-press Touch Handlers for Mobile ---
+    const holdTimerRef = useRef(null);
+    const touchStartPosRef = useRef({ x: 0, y: 0 });
+    const HOLD_DURATION = 400; // ms to hold before drag activates
+    const MOVE_THRESHOLD = 10; // px movement allowed during hold
+
     const handleTouchStart = (e, blockId) => {
         // Prevent tracking the drag on actual links
         if (e.target.tagName.toLowerCase() === 'a') return;
-        setDragging(blockId);
-        draggingRef.current = blockId;
+
+        const touch = e.touches[0];
+        touchStartPosRef.current = { x: touch.clientX, y: touch.clientY };
+
+        // Start a hold timer — drag only activates after holding
+        holdTimerRef.current = setTimeout(() => {
+            setDragging(blockId);
+            draggingRef.current = blockId;
+        }, HOLD_DURATION);
+    };
+
+    const cancelHold = () => {
+        if (holdTimerRef.current) {
+            clearTimeout(holdTimerRef.current);
+            holdTimerRef.current = null;
+        }
     };
 
     // Native touchmove handler ref — only preventDefault when actively dragging
     const handleTouchMoveRef = useRef((e) => {
-        if (!draggingRef.current) return;
-        e.preventDefault();
         const touch = e.touches[0];
+
+        // If drag not yet active, check if user moved too far (= scrolling)
+        if (!draggingRef.current) {
+            const dx = Math.abs(touch.clientX - touchStartPosRef.current.x);
+            const dy = Math.abs(touch.clientY - touchStartPosRef.current.y);
+            if (dx > MOVE_THRESHOLD || dy > MOVE_THRESHOLD) {
+                // User is scrolling — cancel the hold timer
+                if (holdTimerRef.current) {
+                    clearTimeout(holdTimerRef.current);
+                    holdTimerRef.current = null;
+                }
+            }
+            return; // Let the browser handle scrolling
+        }
+
+        // Drag IS active — prevent scrolling and track drag target
+        e.preventDefault();
         const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
         const blockElement = targetElement?.closest('.draggable-footer-block');
         
@@ -157,7 +191,7 @@ const Footer = () => {
                             onDragOver={(e) => handleDragOver(e, block.id)}
                             onDragEnd={handleDragEnd}
                             onTouchStart={(e) => handleTouchStart(e, block.id)}
-                            onTouchEnd={handleDragEnd}
+                            onTouchEnd={() => { cancelHold(); handleDragEnd(); }}
                             layout
                             transition={{ layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }}
                         >
