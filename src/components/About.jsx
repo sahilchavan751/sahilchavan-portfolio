@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion } from 'framer-motion';
@@ -37,8 +37,7 @@ const experiences = [
 const About = () => {
     const containerRef = useRef(null);
     const scrollRef = useRef(null);
-
-    useEffect(() => {
+    useLayoutEffect(() => {
         const sections = gsap.utils.toArray('.timeline-item');
 
         let ctx = gsap.context(() => {
@@ -55,6 +54,7 @@ const About = () => {
                     end: () => `+=${scrollRef.current.offsetWidth}`,
                     anticipatePin: 1,
                     invalidateOnRefresh: true,
+                    refreshPriority: 1, // Ensure this pin is calculated BEFORE downstream elements
                 }
             });
 
