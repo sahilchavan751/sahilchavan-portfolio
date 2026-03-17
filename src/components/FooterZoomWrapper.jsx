@@ -19,10 +19,12 @@ const FooterZoomWrapper = () => {
             // inset(top right bottom left round borderRadius)
             gsap.fromTo(el,
                 {
-                    clipPath: "inset(5% 15% 50% 15% round 24px)",
+                    clipPath: "inset(10% 5% 45% 5% round 24px)",
+                    webkitClipPath: "inset(10% 5% 45% 5% round 24px)",
                 },
                 {
                     clipPath: "inset(0% 0% 0% 0% round 0px)",
+                    webkitClipPath: "inset(0% 0% 0% 0% round 0px)",
                     ease: "none",
                     scrollTrigger: {
                         trigger: wrapperRef.current,
