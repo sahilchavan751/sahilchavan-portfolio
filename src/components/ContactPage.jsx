@@ -93,22 +93,27 @@ const ContactPage = () => {
         window.scrollTo(0, 0)
     }, [])
 
+    const draggingRef = useRef(null)
+
     const handleDragStart = useCallback((e, blockId) => {
         setDragging(blockId)
-        e.dataTransfer.effectAllowed = 'move'
-        const ghost = document.createElement('div')
-        ghost.style.opacity = '0'
-        document.body.appendChild(ghost)
-        e.dataTransfer.setDragImage(ghost, 0, 0)
-        setTimeout(() => document.body.removeChild(ghost), 0)
+        draggingRef.current = blockId
+        if (e.dataTransfer) {
+            e.dataTransfer.effectAllowed = 'move'
+            const ghost = document.createElement('div')
+            ghost.style.opacity = '0'
+            document.body.appendChild(ghost)
+            e.dataTransfer.setDragImage(ghost, 0, 0)
+            setTimeout(() => document.body.removeChild(ghost), 0)
+        }
     }, [])
 
     const handleDragOver = useCallback((e, blockId) => {
         e.preventDefault()
-        if (blockId !== dragging) {
+        if (blockId !== draggingRef.current) {
             setDragOver(blockId)
         }
-    }, [dragging])
+    }, [])
 
     const handleDragEnd = useCallback(() => {
         if (dragging && dragOver && dragging !== dragOver) {
@@ -126,7 +131,41 @@ const ContactPage = () => {
         }
         setDragging(null)
         setDragOver(null)
+        draggingRef.current = null
     }, [dragging, dragOver])
+
+    // --- Touch Handlers for Mobile ---
+    const handleTouchStart = useCallback((e, blockId) => {
+        if (e.target.tagName.toLowerCase() === 'a' ||
+            e.target.tagName.toLowerCase() === 'input' ||
+            e.target.tagName.toLowerCase() === 'textarea') return
+        setDragging(blockId)
+        draggingRef.current = blockId
+    }, [])
+
+    const handleTouchMoveRef = useRef((e) => {
+        if (!draggingRef.current) return
+        e.preventDefault()
+        const touch = e.touches[0]
+        const targetElement = document.elementFromPoint(touch.clientX, touch.clientY)
+        const blockElement = targetElement?.closest('.contact-grid-block')
+
+        if (blockElement) {
+            const targetId = blockElement.getAttribute('data-block-id')
+            if (targetId && targetId !== draggingRef.current) {
+                setDragOver(targetId)
+            }
+        }
+    })
+
+    // Attach touchmove with { passive: false } via native API to allow preventDefault
+    useEffect(() => {
+        const grid = gridRef.current
+        if (!grid) return
+        const handler = handleTouchMoveRef.current
+        grid.addEventListener('touchmove', handler, { passive: false })
+        return () => grid.removeEventListener('touchmove', handler)
+    }, [])
 
     const renderBlock = (block, index) => {
         const isDragging = dragging === block.id
@@ -139,10 +178,13 @@ const ContactPage = () => {
                 key={block.id}
                 className={blockClass}
                 style={{ gridArea: block.gridArea }}
+                data-block-id={block.id}
                 draggable
                 onDragStart={(e) => handleDragStart(e, block.id)}
                 onDragOver={(e) => handleDragOver(e, block.id)}
                 onDragEnd={handleDragEnd}
+                onTouchStart={(e) => handleTouchStart(e, block.id)}
+                onTouchEnd={handleDragEnd}
                 custom={index}
                 initial="hidden"
                 animate="visible"

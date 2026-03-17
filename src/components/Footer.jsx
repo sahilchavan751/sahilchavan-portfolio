@@ -104,6 +104,31 @@ const Footer = () => {
         setDragOver(null);
     }, [dragging, dragOver]);
 
+    // --- Touch Handlers for Mobile ---
+    const handleTouchStart = (e, blockId) => {
+        // Prevent tracking the drag on actual links
+        if (e.target.tagName.toLowerCase() === 'a') return;
+        setDragging(blockId);
+    };
+
+    const handleTouchMove = (e) => {
+        if (!dragging) return;
+        const touch = e.touches[0];
+        const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
+        const blockElement = targetElement?.closest('.draggable-footer-block');
+        
+        if (blockElement) {
+            const targetId = blockElement.getAttribute('data-block-id');
+            if (targetId && targetId !== dragging) {
+                setDragOver(targetId);
+            }
+        }
+    };
+
+    const handleTouchEnd = () => {
+        handleDragEnd();
+    };
+
     return (
         <footer id="contact" className="footer-block-grid">
             <div className="footer-grid-container">
@@ -114,10 +139,14 @@ const Footer = () => {
                         <motion.div
                             key={block.id}
                             className={`${block.className} draggable-footer-block ${isDragging ? 'is-dragging' : ''} ${isOver ? 'is-drag-over' : ''}`}
+                            data-block-id={block.id}
                             draggable
                             onDragStart={(e) => handleDragStart(e, block.id)}
                             onDragOver={(e) => handleDragOver(e, block.id)}
                             onDragEnd={handleDragEnd}
+                            onTouchStart={(e) => handleTouchStart(e, block.id)}
+                            onTouchMove={handleTouchMove}
+                            onTouchEnd={handleTouchEnd}
                             layout
                             transition={{ layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }}
                         >
