@@ -29,8 +29,9 @@ const FooterZoomWrapper = () => {
                     scrollTrigger: {
                         trigger: wrapperRef.current,
                         start: "top top",
-                        end: "bottom bottom",
+                        end: "+=100vh", // Pin for exactly 100vh of scroll distance
                         scrub: true,
+                        pin: true, // Use GSAP pinning instead of CSS sticky
                     },
                 }
             );
@@ -41,10 +42,8 @@ const FooterZoomWrapper = () => {
 
     return (
         <div className="footer-zoom-wrapper" ref={wrapperRef}>
-            <div className="footer-zoom-sticky">
-                <div className="footer-zoom-clip" ref={clipRef}>
-                    <Footer />
-                </div>
+            <div className="footer-zoom-clip" ref={clipRef}>
+                <Footer />
             </div>
         </div>
     );

@@ -1,26 +1,14 @@
 /* ========== FOOTER ZOOM WRAPPER ========== */
 
-/* Tall outer wrapper: 200vh gives 100vh of scroll room for the zoom */
 .footer-zoom-wrapper {
-    height: 200vh;
     position: relative;
     background: #FFFFFF;
-}
-
-/* Sticky container keeps the footer visible while scrolling */
-.footer-zoom-sticky {
-    position: sticky;
-    top: 0;
-    height: 100vh;
     width: 100%;
-    overflow: hidden;
-    background: #FFFFFF;
 }
 
 /* The clip container — holds the full-size footer, masked by clip-path */
 .footer-zoom-clip {
     width: 100%;
-    height: 100%;
     
     /* DEFAULT card look focused on the upper half */
     -webkit-clip-path: inset(10% 5% 45% 5%);
