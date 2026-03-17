@@ -23,9 +23,10 @@
     height: 100%;
     
     /* DEFAULT card look focused on the upper half */
-    -webkit-clip-path: inset(10% 5% 45% 5% round 24px);
-    clip-path: inset(10% 5% 45% 5% round 24px);
+    -webkit-clip-path: inset(10% 5% 45% 5%);
+    clip-path: inset(10% 5% 45% 5%);
     
     /* Hardware acceleration to prevent the mask from breaking/disappearing */
     transform: translateZ(0);
+    will-change: transform, clip-path, -webkit-clip-path;
 }

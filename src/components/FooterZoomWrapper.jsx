@@ -15,21 +15,23 @@ const FooterZoomWrapper = () => {
             const el = clipRef.current;
             if (!el) return;
 
-            // Animate clip-path directly
+            // Animate clip-path directly using strict 4-value syntax
             gsap.fromTo(el,
                 {
-                    clipPath: "inset(10% 5% 45% 5% round 24px)",
-                    webkitClipPath: "inset(10% 5% 45% 5% round 24px)",
+                    clipPath: "inset(10% 5% 45% 5%)",
+                    webkitClipPath: "inset(10% 5% 45% 5%)",
                 },
                 {
-                    clipPath: "inset(0% 0% 0% 0% round 0px)",
-                    webkitClipPath: "inset(0% 0% 0% 0% round 0px)",
+                    clipPath: "inset(0% 0% 0% 0%)",
+                    webkitClipPath: "inset(0% 0% 0% 0%)",
                     ease: "none",
+                    immediateRender: false,
                     scrollTrigger: {
                         trigger: wrapperRef.current,
                         start: "top top",
                         end: "bottom bottom",
                         scrub: true,
+                        markers: true,
                     },
                 }
             );
