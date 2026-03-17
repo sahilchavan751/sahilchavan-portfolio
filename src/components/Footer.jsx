@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const initialFooterBlocks = [
@@ -60,6 +60,8 @@ const Footer = () => {
     const [blocks, setBlocks] = useState(initialFooterBlocks);
     const [dragging, setDragging] = useState(null);
     const [dragOver, setDragOver] = useState(null);
+    const draggingRef = useRef(null);
+    const gridRef = useRef(null);
 
     const handleDragStart = useCallback((e, blockId) => {
         // Prevent tracking the drag on actual links
@@ -68,6 +70,7 @@ const Footer = () => {
             return;
         }
         setDragging(blockId);
+        draggingRef.current = blockId;
         e.dataTransfer.effectAllowed = 'move';
         
         // Make the drag ghost transparent
@@ -102,6 +105,7 @@ const Footer = () => {
         }
         setDragging(null);
         setDragOver(null);
+        draggingRef.current = null;
     }, [dragging, dragOver]);
 
     // --- Touch Handlers for Mobile ---
@@ -109,29 +113,37 @@ const Footer = () => {
         // Prevent tracking the drag on actual links
         if (e.target.tagName.toLowerCase() === 'a') return;
         setDragging(blockId);
+        draggingRef.current = blockId;
     };
 
-    const handleTouchMove = (e) => {
-        if (!dragging) return;
+    // Native touchmove handler ref — only preventDefault when actively dragging
+    const handleTouchMoveRef = useRef((e) => {
+        if (!draggingRef.current) return;
+        e.preventDefault();
         const touch = e.touches[0];
         const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
         const blockElement = targetElement?.closest('.draggable-footer-block');
         
         if (blockElement) {
             const targetId = blockElement.getAttribute('data-block-id');
-            if (targetId && targetId !== dragging) {
+            if (targetId && targetId !== draggingRef.current) {
                 setDragOver(targetId);
             }
         }
-    };
+    });
 
-    const handleTouchEnd = () => {
-        handleDragEnd();
-    };
+    // Attach touchmove with { passive: false } via native API to allow preventDefault
+    useEffect(() => {
+        const grid = gridRef.current;
+        if (!grid) return;
+        const handler = handleTouchMoveRef.current;
+        grid.addEventListener('touchmove', handler, { passive: false });
+        return () => grid.removeEventListener('touchmove', handler);
+    }, []);
 
     return (
         <footer id="contact" className="footer-block-grid">
-            <div className="footer-grid-container">
+            <div className="footer-grid-container" ref={gridRef}>
                 {blocks.map((block) => {
                     const isDragging = dragging === block.id;
                     const isOver = dragOver === block.id;
@@ -145,8 +157,7 @@ const Footer = () => {
                             onDragOver={(e) => handleDragOver(e, block.id)}
                             onDragEnd={handleDragEnd}
                             onTouchStart={(e) => handleTouchStart(e, block.id)}
-                            onTouchMove={handleTouchMove}
-                            onTouchEnd={handleTouchEnd}
+                            onTouchEnd={handleDragEnd}
                             layout
                             transition={{ layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }}
                         >

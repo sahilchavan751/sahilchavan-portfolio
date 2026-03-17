@@ -106,7 +106,6 @@
     overflow: hidden;
     user-select: none;
     border: 1px solid rgba(0,0,0,0.05);
-    touch-action: none;
 }
 
 .contact-grid-block:active {
