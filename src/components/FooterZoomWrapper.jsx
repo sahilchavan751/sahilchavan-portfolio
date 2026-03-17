@@ -15,23 +15,29 @@ const FooterZoomWrapper = () => {
             const el = clipRef.current;
             if (!el) return;
 
+            // Use less aggressive clip on mobile where footer is stacked vertically
+            const isMobile = window.innerWidth <= 768;
+            const startClip = isMobile
+                ? "inset(5% 3% 25% 3%)"
+                : "inset(15% 5% 55% 5%)";
+
             // Animate clip-path directly using strict 4-value syntax
             gsap.fromTo(el,
                 {
-                    clipPath: "inset(10% 5% 45% 5%)",
-                    webkitClipPath: "inset(10% 5% 45% 5%)",
+                    clipPath: startClip,
+                    webkitClipPath: startClip,
                 },
                 {
                     clipPath: "inset(0% 0% 0% 0%)",
                     webkitClipPath: "inset(0% 0% 0% 0%)",
-                    ease: "none",
+                    ease: "power2.inOut",
                     immediateRender: false,
                     scrollTrigger: {
                         trigger: wrapperRef.current,
                         start: "top top",
-                        end: "+=100vh", // Pin for exactly 100vh of scroll distance
-                        scrub: true,
-                        pin: true, // Use GSAP pinning instead of CSS sticky
+                        end: "+=150vh", // Longer scroll distance for slower reveal
+                        scrub: 1.5, // Smooth scrub with 1.5s lag for buttery feel
+                        pin: true,
                     },
                 }
             );

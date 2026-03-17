@@ -108,7 +108,6 @@ function HomePage({ isMenuOpen, setIsMenuOpen, isLoading, handlePreloaderComplet
             </main>
 
             <Menu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
-            <MusicPlayer />
         </>
     )
 }
@@ -137,6 +136,7 @@ function App() {
                 <Route path="/about" element={<AboutInfoPage />} />
                 <Route path="/contact" element={<ContactPage />} />
             </Routes>
+            <MusicPlayer />
         </div>
     )
 }

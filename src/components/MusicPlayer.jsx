@@ -13,28 +13,12 @@ const MusicPlayer = () => {
         if (audioRef.current) {
             audioRef.current.volume = volume
         }
-
-        // Start music on first click anywhere on the page
-        const startOnFirstClick = () => {
-            if (!hasStarted.current && audioRef.current) {
-                hasStarted.current = true
-                audioRef.current.play().catch(() => { })
-                audioRef.current.muted = false
-                setIsMuted(false)
-                setIsPlaying(true)
-                window.dispatchEvent(new CustomEvent('bg-music-resumed'));
-            }
-            document.removeEventListener('click', startOnFirstClick)
-        }
-
-        document.addEventListener('click', startOnFirstClick)
-        return () => document.removeEventListener('click', startOnFirstClick)
-    }, [])
+    }, [volume])
 
     // Listen for custom events to coordinate with Workspace videos
     useEffect(() => {
         const handlePauseRequest = () => {
-            if (audioRef.current && isPlaying) {
+            if (audioRef.current && isPlaying && hasStarted.current) {
                 audioRef.current.pause()
                 setIsPlaying(false)
                 audioRef.current.dataset.autoPaused = "true"
@@ -43,7 +27,8 @@ const MusicPlayer = () => {
         }
 
         const handleResumeRequest = () => {
-            if (audioRef.current && audioRef.current.dataset.autoPaused === "true") {
+            // Only resume if user has manually started music before AND it was auto-paused
+            if (audioRef.current && hasStarted.current && audioRef.current.dataset.autoPaused === "true") {
                 audioRef.current.play().catch(() => { })
                 setIsPlaying(true)
                 audioRef.current.muted = false;
@@ -53,8 +38,33 @@ const MusicPlayer = () => {
             }
         }
 
+        // Toggle event from Hero music block — acts like a manual play/pause
+        const handleToggleRequest = () => {
+            const audio = audioRef.current
+            if (!audio) return
+
+            if (isPlaying) {
+                audio.pause()
+                setIsPlaying(false)
+                hasStarted.current = false
+                audio.dataset.autoPaused = "false"
+                window.dispatchEvent(new CustomEvent('bg-music-paused'));
+            } else {
+                hasStarted.current = true
+                audio.play().catch(() => { })
+                setIsPlaying(true)
+                audio.dataset.autoPaused = "false"
+                window.dispatchEvent(new CustomEvent('bg-music-resumed'));
+                if (audio.muted) {
+                    audio.muted = false
+                    setIsMuted(false)
+                }
+            }
+        }
+
         window.addEventListener('pause-bg-music', handlePauseRequest)
         window.addEventListener('resume-bg-music', handleResumeRequest)
+        window.addEventListener('toggle-bg-music', handleToggleRequest)
 
         // Listen for expansion request from Hero
         const handleOpenRequest = () => setIsExpanded(true);
@@ -63,6 +73,7 @@ const MusicPlayer = () => {
         return () => {
             window.removeEventListener('pause-bg-music', handlePauseRequest)
             window.removeEventListener('resume-bg-music', handleResumeRequest)
+            window.removeEventListener('toggle-bg-music', handleToggleRequest)
             window.removeEventListener('open-music-player', handleOpenRequest);
         }
     }, [isPlaying, isMuted])
@@ -80,9 +91,11 @@ const MusicPlayer = () => {
         if (isPlaying) {
             audio.pause()
             setIsPlaying(false)
-            audio.dataset.autoPaused = "false" // Manual stop
+            hasStarted.current = false // User manually stopped — don't auto-resume
+            audio.dataset.autoPaused = "false"
             window.dispatchEvent(new CustomEvent('bg-music-paused'));
         } else {
+            hasStarted.current = true // User manually started playback
             audio.play().catch(() => { })
             setIsPlaying(true)
             audio.dataset.autoPaused = "false"

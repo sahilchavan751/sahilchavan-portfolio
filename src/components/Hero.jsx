@@ -47,12 +47,8 @@ const Hero = () => {
         // Expansion is the primary action requested: "touch to open popup"
         window.dispatchEvent(new CustomEvent('open-music-player'));
         
-        // Now it also toggles playback
-        if (isPlaying) {
-            window.dispatchEvent(new CustomEvent('pause-bg-music'));
-        } else {
-            window.dispatchEvent(new CustomEvent('resume-bg-music'));
-        }
+        // Dispatch a dedicated toggle event so MusicPlayer can handle it
+        window.dispatchEvent(new CustomEvent('toggle-bg-music'));
     };
 
     // Intersection Observer for auto-pause

@@ -142,6 +142,7 @@
 @media (max-width: 768px) {
     .process-section {
         padding: 80px 5% 0 5%;
+        min-height: auto;
     }
 
     .process-header {
@@ -149,13 +150,42 @@
     }
 
     .creative-block-grid {
-        grid-template-columns: 1fr; /* Single column on mobile */
+        grid-template-columns: repeat(2, 1fr); /* 2 per row on mobile */
     }
 
     .creative-block-item {
         aspect-ratio: auto;
-        min-height: 350px;
-        padding: 30px;
+        min-height: auto;
+        padding: 15px;
     }
 
+    .block-number {
+        font-size: 2rem;
+        margin-bottom: 0;
+    }
+
+    .block-name {
+        font-size: 0.7rem;
+        margin-bottom: 6px;
+    }
+
+    .block-desc {
+        font-size: 0.6rem;
+        line-height: 1.35;
+        max-width: 100%;
+    }
+
+    .block-arrow {
+        top: 15px;
+        right: 15px;
+    }
+
+    .block-arrow svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .block-content {
+        margin-top: 10px;
+    }
 }

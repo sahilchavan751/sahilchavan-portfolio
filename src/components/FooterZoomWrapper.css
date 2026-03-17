@@ -10,11 +10,19 @@
 .footer-zoom-clip {
     width: 100%;
     
-    /* DEFAULT card look focused on the upper half */
-    -webkit-clip-path: inset(10% 5% 45% 5%);
-    clip-path: inset(10% 5% 45% 5%);
+    /* DEFAULT card look focused on the SAHIL title block */
+    -webkit-clip-path: inset(15% 5% 55% 5%);
+    clip-path: inset(15% 5% 55% 5%);
     
     /* Hardware acceleration to prevent the mask from breaking/disappearing */
     transform: translateZ(0);
     will-change: transform, clip-path, -webkit-clip-path;
+}
+
+/* Mobile: footer stacks vertically so content is much taller — less aggressive clipping */
+@media (max-width: 768px) {
+    .footer-zoom-clip {
+        -webkit-clip-path: inset(5% 3% 25% 3%);
+        clip-path: inset(5% 3% 25% 3%);
+    }
 }
