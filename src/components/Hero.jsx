@@ -134,139 +134,97 @@ const Hero = () => {
         }
     }, [currentVideo])
 
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    
+    const handleMouseMove = useCallback((e) => {
+        if (!containerRef.current) return;
+        const rect = containerRef.current.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+        const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+        setMousePosition({ x, y });
+    }, []);
+
     return (
-        <section className="hero" ref={containerRef}>
-            {/* Geometric Grid & Background */}
-            <div className="hero-blueprint">
-                <div className="blueprint-grid"></div>
-                <div className="blueprint-lines">
-                    <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
-                        <motion.path 
-                            d="M 0 20 L 100 20" 
-                            stroke="rgba(255,255,255,0.05)" 
-                            strokeWidth="0.1"
-                            initial={{ pathLength: 0 }}
-                            animate={{ pathLength: 1 }}
-                            transition={{ duration: 1.5, delay: 1 }}
+        <section 
+            className="hero hero-parallax" 
+            ref={containerRef} 
+            onMouseMove={handleMouseMove} 
+            onMouseLeave={() => setMousePosition({ x: 0, y: 0 })}
+        >
+            {/* Layer 1: Deep Background Text */}
+            <motion.div 
+                className="parallax-layer parallax-bg"
+                animate={{ x: mousePosition.x * -40, y: mousePosition.y * -40 }}
+                transition={{ type: "spring", stiffness: 75, damping: 20, mass: 0.5 }}
+            >
+                <h1 className="parallax-bg-text">CHAVAN</h1>
+            </motion.div>
+
+            {/* Layer 2: Masked Video Cutout */}
+            <motion.div 
+                className="parallax-layer parallax-mid"
+                animate={{ x: mousePosition.x * -15, y: mousePosition.y * -15 }}
+                transition={{ type: "spring", stiffness: 75, damping: 20, mass: 0.5 }}
+            >
+                <div className="video-cutout organic-shape">
+                    <video
+                        ref={videoRef}
+                        key={currentVideo}
+                        className={`parallax-video ${fade ? 'visible' : 'hidden'} ${videos[currentVideo].fit ? 'cinematic-fit' : ''}`}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                    >
+                        <source src={videos[currentVideo].src} type="video/mp4" />
+                    </video>
+                    <div className="parallax-film-grain"></div>
+                </div>
+            </motion.div>
+
+            {/* Layer 3: Foreground Overlapping Text & UI */}
+            <motion.div 
+                className="parallax-layer parallax-fg"
+                animate={{ x: mousePosition.x * 30, y: mousePosition.y * 30 }}
+                transition={{ type: "spring", stiffness: 75, damping: 20, mass: 0.5 }}
+            >
+                <h2 className="parallax-fg-text">SAHIL</h2>
+                
+                {/* Badges Layout TL */}
+                <div className="parallax-ui-item parallax-badge-tl">
+                    <span>DEV</span><span className="dot"></span><span>DIRECTOR</span><span className="dot"></span><span>EDITOR</span>
+                </div>
+
+                {/* Vertical Scroll Indicator TR */}
+                <div className="parallax-ui-item parallax-scroll-tr">
+                    <div className="scroll-line">
+                        <motion.div 
+                            className="scroll-thumb"
+                            animate={{ scaleY: [0, 1, 0], transformOrigin: ["50% 0%", "50% 0%", "50% 100%"] }}
+                            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                         />
-                        <motion.path 
-                            d="M 0 80 L 100 80" 
-                            stroke="rgba(255,255,255,0.05)" 
-                            strokeWidth="0.1"
-                            initial={{ pathLength: 0 }}
-                            animate={{ pathLength: 1 }}
-                            transition={{ duration: 1.5, delay: 1.2 }}
-                        />
-                        <motion.path 
-                            d="M 20 0 L 20 100" 
-                            stroke="rgba(255,255,255,0.05)" 
-                            strokeWidth="0.1"
-                            initial={{ pathLength: 0 }}
-                            animate={{ pathLength: 1 }}
-                            transition={{ duration: 1.5, delay: 1.4 }}
-                        />
-                        <motion.path 
-                            d="M 80 0 L 80 100" 
-                            stroke="rgba(255,255,255,0.05)" 
-                            strokeWidth="0.1"
-                            initial={{ pathLength: 0 }}
-                            animate={{ pathLength: 1 }}
-                            transition={{ duration: 1.5, delay: 1.6 }}
-                        />
-                    </svg>
-                </div>
-            </div>
-
-            <div className="video-background">
-                <video
-                    ref={videoRef}
-                    key={currentVideo}
-                    className={`hero-video ${fade ? 'visible' : 'hidden'} ${videos[currentVideo].fit ? 'cinematic-fit' : ''}`}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                >
-                    <source src={videos[currentVideo].src} type="video/mp4" />
-                </video>
-                <div className="grain-overlay"></div>
-                <div className="hero-scanline"></div>
-            </div>
-
-            <div className="hero-content">
-                <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.5 }}
-                    className="hero-tag"
-                >
-                    <span className="tag-text">DEV, DIRECTOR, EDITOR</span>
-                </motion.div>
-
-                <div className="hero-main-title">
-                    <div className="title-bounding-box">
-                        <motion.h1
-                            className="sahil-text"
-                            initial={{ opacity: 0, scale: 0.98 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1, delay: 0.7 }}
-                        >
-                            SAHIL
-                        </motion.h1>
-                        
-                        {/* Geometric corners for the title box */}
-                        <div className="title-corner tl"></div>
-                        <div className="title-corner tr"></div>
-                        <div className="title-corner bl"></div>
-                        <div className="title-corner br"></div>
                     </div>
-                </div>
-            </div>
-
-            <div className="hero-bottom-bar">
-                <div className="bottom-left">
-                    <div className="social-links-minimal">
-                        <a href="https://www.instagram.com/sahnoir_" target="_blank" rel="noopener noreferrer">IG</a>
-                        <a href="https://www.youtube.com/@sahil.mp4752" target="_blank" rel="noopener noreferrer">YT</a>
-                        <a href="#">LI</a>
-                        <a href="#">BE</a>
-                    </div>
+                    <span className="scroll-label">DISCOVER</span>
                 </div>
 
-                <div className="bottom-center">
-                    <div className="scroll-box">
-                        <span className="scroll-text">SCROLL TO DISCOVER</span>
-                        <div className="scroll-progress-line">
-                            <motion.div 
-                                className="progress-fill"
-                                animate={{ width: ["0%", "100%", "0%"] }}
-                                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                            />
-                        </div>
+                {/* Music Toggle BL */}
+                <div className="parallax-ui-item parallax-music-bl" onClick={toggleMusic}>
+                    <div className={`p-visualizer ${isPlaying ? 'active' : ''}`}>
+                        <div className="pv-bar"></div>
+                        <div className="pv-bar"></div>
+                        <div className="pv-bar"></div>
+                        <div className="pv-bar"></div>
                     </div>
+                    <span className="p-music-status">{isPlaying ? 'AUDIO ON' : 'AUDIO OFF'}</span>
                 </div>
 
-                <div className="bottom-right">
-                    <div className="hero-music-block" onClick={toggleMusic}>
-                        <div className={`music-visualizer ${isPlaying ? 'active' : ''}`}>
-                            <div className="v-bar"></div>
-                            <div className="v-bar"></div>
-                            <div className="v-bar"></div>
-                            <div className="v-bar"></div>
-                        </div>
-                        <div className="music-meta">
-                            <span className="meta-label">AUDIO.EXE</span>
-                            <span className="meta-status">{isPlaying ? 'PLAYING' : 'PAUSED'}</span>
-                        </div>
-                    </div>
-                    <div className="location-technical">
-                        <div className="loc-header">LOCAL_COORDINATES</div>
-                        <div className="loc-data">NASHIK, MH — {time} GMT+5:30</div>
-                    </div>
+                {/* Location BR */}
+                <div className="parallax-ui-item parallax-location-br">
+                    <div className="p-loc-label">LOCAL_TIME</div>
+                    <div className="p-loc-value">{time}</div>
+                    <div className="p-loc-label mt-2">NASHIK, MH</div>
                 </div>
-            </div>
+            </motion.div>
         </section>
     )
 }

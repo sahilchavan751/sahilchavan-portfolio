@@ -20,28 +20,34 @@ const Navbar = ({ onMenuOpen }) => {
         const triggers = []
 
         lightSections.forEach((section) => {
+            const isHero = section.classList.contains('hero');
+            
             const st = ScrollTrigger.create({
                 trigger: section,
                 start: "top top",
                 end: "bottom top",
                 onEnter: () => {
-                    nav.classList.remove('navbar--light')
-                    nav.classList.add('navbar--dark')
+                    nav.classList.remove('navbar--light');
+                    nav.classList.add('navbar--dark');
                 },
                 onLeave: () => {
-                    nav.classList.remove('navbar--dark')
-                    nav.classList.add('navbar--light')
+                    nav.classList.remove('navbar--dark');
+                    nav.classList.add('navbar--light');
                 },
                 onEnterBack: () => {
-                    nav.classList.remove('navbar--light')
-                    nav.classList.add('navbar--dark')
+                    nav.classList.remove('navbar--light');
+                    nav.classList.add('navbar--dark');
                 },
                 onLeaveBack: () => {
-                    nav.classList.remove('navbar--dark')
-                    nav.classList.add('navbar--light')
+                    // Only revert to light if it's NOT the hero section 
+                    // (since nothing is above the hero to revert to)
+                    if (!isHero) {
+                        nav.classList.remove('navbar--dark');
+                        nav.classList.add('navbar--light');
+                    }
                 },
-            })
-            triggers.push(st)
+            });
+            triggers.push(st);
         })
 
         return () => {
@@ -50,12 +56,8 @@ const Navbar = ({ onMenuOpen }) => {
     }, [])
 
     return (
-        <nav className="navbar navbar--light" ref={navRef}>
+        <nav className="navbar navbar--dark" ref={navRef}>
             <div className="logo">
-                <div className="logo-icon">
-                    <img src={sahilImg} alt="Sahil Chavan" className="logo-img" />
-                </div>
-                <span className="logo-text">SAHIL CHAVAN — 21</span>
             </div>
             <div className="menu-trigger" onClick={onMenuOpen}>
                 <span className="menu-btn-text">MENU</span>
