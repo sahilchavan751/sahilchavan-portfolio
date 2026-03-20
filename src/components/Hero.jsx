@@ -1,15 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { motion } from 'framer-motion'
 
-const videos = [
+export const HERO_VIDEOS = [
     { src: "/hero-videos/college... - Odinnn (1080p, h264).mp4", fit: false },
     { src: "/hero-videos/November dump... - Odinnn (1080p, h264).mp4", fit: false },
     { src: "/hero-videos/Mothers cry International day of forest Short film - Odinnn (1080p, h264).mp4", fit: true }
 ]
 
-const Hero = () => {
-    const [currentVideo, setCurrentVideo] = useState(0)
-    const [fade, setFade] = useState(true)
+const Hero = ({ currentVideo, fade, isClone }) => {
     const [isVisible, setIsVisible] = useState(true)
     const [time, setTime] = useState('')
     const [isPlaying, setIsPlaying] = useState(false)
@@ -86,27 +84,6 @@ const Hero = () => {
         return () => clearInterval(timer);
     }, []);
 
-    const switchVideo = useCallback(() => {
-        setFade(false)
-        setTimeout(() => {
-            setCurrentVideo((prev) => {
-                let next;
-                do {
-                    next = Math.floor(Math.random() * videos.length);
-                } while (next === prev && videos.length > 1);
-                return next;
-            });
-            setFade(true)
-        }, 800)
-    }, [])
-
-    useEffect(() => {
-        if (!isVisible) return; // Pause rotation if not visible
-
-        const timer = setInterval(switchVideo, 5000)
-        return () => clearInterval(timer)
-    }, [switchVideo, isVisible])
-
     useEffect(() => {
         const video = videoRef.current
         if (video) {
@@ -170,13 +147,13 @@ const Hero = () => {
                     <video
                         ref={videoRef}
                         key={currentVideo}
-                        className={`parallax-video ${fade ? 'visible' : 'hidden'} ${videos[currentVideo].fit ? 'cinematic-fit' : ''}`}
+                        className={`parallax-video ${fade ? 'visible' : 'hidden'} ${HERO_VIDEOS[currentVideo].fit ? 'cinematic-fit' : ''}`}
                         autoPlay
                         muted
                         loop
                         playsInline
                     >
-                        <source src={videos[currentVideo].src} type="video/mp4" />
+                        <source src={HERO_VIDEOS[currentVideo].src} type="video/mp4" />
                     </video>
                     <div className="parallax-film-grain"></div>
                 </div>

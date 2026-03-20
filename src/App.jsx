@@ -4,14 +4,12 @@ import Lenis from 'lenis'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Navbar from './components/Navbar'
-import Hero from './components/Hero'
+import Hero, { HERO_VIDEOS } from './components/Hero'
 import Menu from './components/Menu'
 import Preloader from './components/Preloader'
 import MusicPlayer from './components/MusicPlayer'
 import Workspace from './components/Workspace'
-import TechGrid from './components/TechGrid'
-import About from './components/About'
-import Process from './components/Process'
+
 import FooterZoomWrapper from './components/FooterZoomWrapper'
 import CustomCursor from './components/CustomCursor'
 import ProjectsPage from './components/ProjectsPage'
@@ -20,6 +18,28 @@ import ContactPage from './components/ContactPage'
 import './App.css'
 
 function HomePage({ isMenuOpen, setIsMenuOpen, isLoading, handlePreloaderComplete }) {
+    const [currentHeroVideo, setCurrentHeroVideo] = useState(0)
+    const [heroFade, setHeroFade] = useState(true)
+
+    // Lifted Hero video rotation state for syncing the top and bottom clones
+    useEffect(() => {
+        const switchVideo = () => {
+            setHeroFade(false);
+            setTimeout(() => {
+                setCurrentHeroVideo((prev) => {
+                    let next;
+                    do {
+                        next = Math.floor(Math.random() * HERO_VIDEOS.length);
+                    } while (next === prev && HERO_VIDEOS.length > 1);
+                    return next;
+                });
+                setHeroFade(true);
+            }, 800);
+        };
+
+        const timer = setInterval(switchVideo, 5000);
+        return () => clearInterval(timer);
+    }, []);
 
     useEffect(() => {
         // Initialize Lenis
@@ -33,7 +53,7 @@ function HomePage({ isMenuOpen, setIsMenuOpen, isLoading, handlePreloaderComplet
             wheelMultiplier: 1,
             smoothTouch: true,
             touchMultiplier: 2,
-            infinite: false,
+            infinite: true,
         })
 
         window.lenis = lenis;
@@ -92,7 +112,7 @@ function HomePage({ isMenuOpen, setIsMenuOpen, isLoading, handlePreloaderComplet
             <Navbar onMenuOpen={() => setIsMenuOpen(true)} />
 
             <div id="home" className="hero-wrapper">
-                <Hero />
+                <Hero currentVideo={currentHeroVideo} fade={heroFade} isClone={false} />
             </div>
 
             <main className="main-content">
@@ -100,12 +120,13 @@ function HomePage({ isMenuOpen, setIsMenuOpen, isLoading, handlePreloaderComplet
                     <Workspace />
                 </div>
 
-                <TechGrid />
-
-                <About />
-                <Process />
                 <FooterZoomWrapper />
             </main>
+
+            {/* Seamless Infinite Scroll DOM Duplicate */}
+            <div className="hero-wrapper seamless-clone" aria-hidden="true" style={{ position: 'relative', zIndex: 1 }}>
+                <Hero currentVideo={currentHeroVideo} fade={heroFade} isClone={true} />
+            </div>
 
             <Menu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
         </>

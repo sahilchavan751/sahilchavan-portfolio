@@ -14,7 +14,7 @@ const Navbar = ({ onMenuOpen }) => {
 
         // Define which sections have WHITE/LIGHT backgrounds (need dark navbar)
         const lightSections = document.querySelectorAll(
-            '.hero, .process-section, .about-horizontal-section, .tech-grid-section, .footer-zoom-wrapper'
+            '.hero, .footer-zoom-wrapper'
         )
 
         const triggers = []
