@@ -17,7 +17,7 @@ import AboutInfoPage from './components/AboutInfoPage'
 import ContactPage from './components/ContactPage'
 import './App.css'
 
-function HomePage({ isMenuOpen, setIsMenuOpen, isLoading, handlePreloaderComplete }) {
+function HomePage({ isMenuOpen, setIsMenuOpen }) {
     const [currentHeroVideo, setCurrentHeroVideo] = useState(0)
     const [heroFade, setHeroFade] = useState(true)
 
@@ -53,7 +53,7 @@ function HomePage({ isMenuOpen, setIsMenuOpen, isLoading, handlePreloaderComplet
             wheelMultiplier: 1,
             smoothTouch: true,
             touchMultiplier: 2,
-            infinite: true,
+            infinite: false,
         })
 
         window.lenis = lenis;
@@ -66,6 +66,18 @@ function HomePage({ isMenuOpen, setIsMenuOpen, isLoading, handlePreloaderComplet
         });
 
         gsap.ticker.lagSmoothing(0);
+
+        // Seamless Scroll Loop using GSAP ScrollTrigger
+        // Bypassing Lenis `infinite: true` to prevent mobile viewport height anomalies
+        const loopTrigger = ScrollTrigger.create({
+            trigger: '.seamless-clone',
+            start: "top top",
+            onEnter: () => {
+                if (window.lenis) {
+                    window.lenis.scrollTo(0, { immediate: true });
+                }
+            }
+        });
 
         const handleHashLinks = (e) => {
             const target = e.target.closest('a');
@@ -101,6 +113,7 @@ function HomePage({ isMenuOpen, setIsMenuOpen, isLoading, handlePreloaderComplet
 
         return () => {
             lenis.destroy()
+            if (loopTrigger) loopTrigger.kill()
             window.removeEventListener('click', handleHashLinks)
             window.lenis = null;
         }
@@ -108,7 +121,6 @@ function HomePage({ isMenuOpen, setIsMenuOpen, isLoading, handlePreloaderComplet
 
     return (
         <>
-            {isLoading && <Preloader onComplete={handlePreloaderComplete} />}
             <Navbar onMenuOpen={() => setIsMenuOpen(true)} />
 
             <div id="home" className="hero-wrapper">
@@ -128,6 +140,9 @@ function HomePage({ isMenuOpen, setIsMenuOpen, isLoading, handlePreloaderComplet
                 <Hero currentVideo={currentHeroVideo} fade={heroFade} isClone={true} />
             </div>
 
+            {/* Subpixel Collision Buffer to ensure ScrollTrigger can physically be crossed on mobile */}
+            <div className="phantom-scroll-buffer" aria-hidden="true" style={{ height: '50vh', backgroundColor: '#000', pointerEvents: 'none' }} />
+
             <Menu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
         </>
     )
@@ -135,22 +150,28 @@ function HomePage({ isMenuOpen, setIsMenuOpen, isLoading, handlePreloaderComplet
 
 function App() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(() => !localStorage.getItem('sahil_portfolio_visited'))
+
+    useEffect(() => {
+        if (localStorage.getItem('sahil_portfolio_visited')) {
+            setIsLoading(false)
+        }
+    }, [])
 
     const handlePreloaderComplete = useCallback(() => {
         setIsLoading(false)
+        localStorage.setItem('sahil_portfolio_visited', 'true')
     }, [])
 
     return (
         <div className="app">
             <CustomCursor />
+            {isLoading && <Preloader onComplete={handlePreloaderComplete} />}
             <Routes>
                 <Route path="/" element={
                     <HomePage
                         isMenuOpen={isMenuOpen}
                         setIsMenuOpen={setIsMenuOpen}
-                        isLoading={isLoading}
-                        handlePreloaderComplete={handlePreloaderComplete}
                     />
                 } />
                 <Route path="/projects" element={<ProjectsPage />} />

@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import sahilImg from '../assets/about-image/sahil-chavan.jpg'
 
 const Menu = ({ isOpen, onClose }) => {
@@ -12,6 +12,7 @@ const Menu = ({ isOpen, onClose }) => {
     ]
 
     const navigate = useNavigate()
+    const { pathname } = useLocation()
 
     const handleLinkClick = (e, href) => {
         e.preventDefault()
@@ -20,6 +21,12 @@ const Menu = ({ isOpen, onClose }) => {
         // Route-based links (e.g. /projects)
         if (href.startsWith('/')) {
             navigate(href)
+            return
+        }
+
+        // If clicking HOME from a page other than the homepage, forcefully route to '/'
+        if (href === '#home' && pathname !== '/') {
+            navigate('/')
             return
         }
 
