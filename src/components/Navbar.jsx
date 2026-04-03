@@ -60,11 +60,13 @@ const Navbar = ({ onMenuOpen }) => {
             <div className="logo">
             </div>
             <div className="menu-trigger" onClick={onMenuOpen}>
-                <span className="menu-btn-text">MENU</span>
-                <div className="hamburger">
-                    <div className="line"></div>
-                    <div className="line"></div>
-                </div>
+                <img
+                    className="hamburger-icon"
+                    src="/svg/hambuger.svg"
+                    alt="Menu"
+                    width="45"
+                    height="45"
+                />
             </div>
         </nav>
     )

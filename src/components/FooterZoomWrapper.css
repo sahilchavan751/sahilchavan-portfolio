@@ -22,7 +22,7 @@
 /* Mobile: footer stacks vertically so content is much taller — less aggressive clipping */
 @media (max-width: 768px) {
     .footer-zoom-clip {
-        -webkit-clip-path: inset(5% 3% 25% 3%);
-        clip-path: inset(5% 3% 25% 3%);
+        -webkit-clip-path: inset(3% 3% 70% 3%);
+        clip-path: inset(3% 3% 70% 3%);
     }
 }

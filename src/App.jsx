@@ -150,17 +150,10 @@ function HomePage({ isMenuOpen, setIsMenuOpen }) {
 
 function App() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const [isLoading, setIsLoading] = useState(() => !localStorage.getItem('sahil_portfolio_visited'))
-
-    useEffect(() => {
-        if (localStorage.getItem('sahil_portfolio_visited')) {
-            setIsLoading(false)
-        }
-    }, [])
+    const [isLoading, setIsLoading] = useState(true) // Always start true
 
     const handlePreloaderComplete = useCallback(() => {
         setIsLoading(false)
-        localStorage.setItem('sahil_portfolio_visited', 'true')
     }, [])
 
     return (

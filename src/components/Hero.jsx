@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { motion } from 'framer-motion'
-
+import musicBtnSvg from '../../svg/MUISC BUTTON.svg'
 export const HERO_VIDEOS = [
     { src: "/hero-videos/college... - Odinnn (1080p, h264).mp4", fit: false },
     { src: "/hero-videos/November dump... - Odinnn (1080p, h264).mp4", fit: false },
@@ -186,13 +186,11 @@ const Hero = ({ currentVideo, fade, isClone }) => {
 
                 {/* Music Toggle BL */}
                 <div className="parallax-ui-item parallax-music-bl" onClick={toggleMusic}>
-                    <div className={`p-visualizer ${isPlaying ? 'active' : ''}`}>
-                        <div className="pv-bar"></div>
-                        <div className="pv-bar"></div>
-                        <div className="pv-bar"></div>
-                        <div className="pv-bar"></div>
-                    </div>
-                    <span className="p-music-status">{isPlaying ? 'AUDIO ON' : 'AUDIO OFF'}</span>
+                    <img 
+                        src={musicBtnSvg} 
+                        alt="Music Toggle" 
+                        className="music-toggle-svg"
+                    />
                 </div>
 
                 {/* Location BR */}

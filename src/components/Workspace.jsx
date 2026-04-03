@@ -1,5 +1,9 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const projects = [
     { id: 1, title: 'Lost in Pages', type: 'image', src: '/workspace-images/w1.jpg' },
@@ -75,6 +79,64 @@ const Workspace = () => {
     const [isPlaying, setIsPlaying] = useState(true)
     const [isMuted, setIsMuted] = useState(false) // Start unmuted in popup
     const popupVideoRef = useRef(null)
+    const sectionRef = useRef(null)
+    const stripsContainerRef = useRef(null)
+
+    // GSAP ScrollTrigger: Staggered Wave Entrance Animation
+    useEffect(() => {
+        const section = sectionRef.current
+        const stripsContainer = stripsContainerRef.current
+        if (!section || !stripsContainer) return
+
+        const strips = stripsContainer.querySelectorAll('.strip')
+        if (!strips.length) return
+
+        // Set initial state — strips start off-screen below
+        gsap.set(strips, {
+            yPercent: 110,
+            opacity: 0,
+        })
+
+        // Create the entrance timeline pinned to the workspace wrapper
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: '.workspace-wrapper',
+                start: 'top 80%',
+                end: 'top 20%',
+                scrub: false,
+                once: true, // Only play once
+            }
+        })
+
+        // Fade in the dark background as strips begin arriving
+        const wrapper = document.querySelector('.workspace-wrapper')
+        tl.to([section, wrapper], {
+            backgroundColor: '#0A0908',
+            duration: 0.6,
+            ease: 'power2.inOut',
+        }, 0)
+
+        // Animate each strip in with a staggered wave
+        tl.to(strips, {
+            yPercent: 0,
+            opacity: 1,
+            duration: 1,
+            ease: 'power3.out',
+            stagger: {
+                each: 0.12,
+                from: 'start',
+            },
+        }, 0.1) // slight offset so bg starts fading in first
+
+        return () => {
+            tl.kill()
+            ScrollTrigger.getAll().forEach(st => {
+                if (st.trigger === document.querySelector('.workspace-wrapper')) {
+                    // don't kill other ScrollTriggers
+                }
+            })
+        }
+    }, [])
 
     const handleStripClick = (project) => {
         if (window.innerWidth <= 768) {
@@ -170,8 +232,8 @@ const Workspace = () => {
     }
 
     return (
-        <section id="projects" className="workspace">
-            <div className={`workspace-strips ${activeId !== null ? 'has-active' : ''}`}>
+        <section id="projects" className="workspace" ref={sectionRef}>
+            <div ref={stripsContainerRef} className={`workspace-strips ${activeId !== null ? 'has-active' : ''}`}>
                 {projects.map((project) => (
                     <ProjectStrip
                         key={project.id}

@@ -1,0 +1,26 @@
+<svg width="669" height="669" viewBox="0 0 669 669" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_d_10_88)">
+<mask id="path-1-outside-1_10_88" maskUnits="userSpaceOnUse" x="34.2998" y="34.3" width="562" height="562" fill="black">
+<rect fill="white" x="34.2998" y="34.3" width="562" height="562"/>
+<path d="M571.3 516.3C571.3 546.676 546.675 571.3 516.3 571.3H114.3C83.9241 571.3 59.2998 546.676 59.2998 516.3V114.3C59.2998 83.9244 83.9241 59.3 114.3 59.3H516.3C546.675 59.3 571.3 83.9244 571.3 114.3V516.3Z"/>
+</mask>
+<path d="M571.3 516.3C571.3 546.676 546.675 571.3 516.3 571.3H114.3C83.9241 571.3 59.2998 546.676 59.2998 516.3V114.3C59.2998 83.9244 83.9241 59.3 114.3 59.3H516.3C546.675 59.3 571.3 83.9244 571.3 114.3V516.3Z" fill="white"/>
+<path d="M516.3 571.3V546.3H114.3V571.3V596.3H516.3V571.3ZM59.2998 516.3H84.2998V114.3H59.2998H34.2998V516.3H59.2998ZM114.3 59.3V84.3H516.3V59.3V34.3H114.3V59.3ZM571.3 114.3H546.3V516.3H571.3H596.3V114.3H571.3ZM516.3 59.3V84.3C532.868 84.3 546.3 97.7315 546.3 114.3H571.3H596.3C596.3 70.1173 560.483 34.3 516.3 34.3V59.3ZM59.2998 114.3H84.2998C84.2998 97.7315 97.7313 84.3 114.3 84.3V59.3V34.3C70.117 34.3 34.2998 70.1173 34.2998 114.3H59.2998ZM114.3 571.3V546.3C97.7313 546.3 84.2998 532.869 84.2998 516.3H59.2998H34.2998C34.2998 560.483 70.117 596.3 114.3 596.3V571.3ZM516.3 571.3V596.3C560.483 596.3 596.3 560.483 596.3 516.3H571.3H546.3C546.3 532.869 532.868 546.3 516.3 546.3V571.3Z" fill="black" mask="url(#path-1-outside-1_10_88)"/>
+<path d="M477.3 439.331C477.3 460.301 460.301 477.3 439.331 477.3H415.601C407.737 477.3 401.362 470.925 401.362 463.062C401.362 455.198 394.988 448.823 387.124 448.823H242.843C234.979 448.823 228.604 455.198 228.604 463.062C228.604 470.925 222.23 477.3 214.366 477.3H190.952C170.157 477.3 153.3 460.443 153.3 439.648V208.3C153.3 177.924 177.924 153.3 208.3 153.3H422.3C452.675 153.3 477.3 177.924 477.3 208.3V439.331Z" fill="black"/>
+<rect x="227.3" y="384.3" width="181" height="20" rx="10" fill="white"/>
+<circle cx="278.3" cy="325.3" r="10" fill="white"/>
+<circle cx="364.3" cy="325.3" r="13" fill="white"/>
+</g>
+<defs>
+<filter id="filter0_d_10_88" x="-0.00019455" y="4.95911e-05" width="668.6" height="668.6" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="19" dy="19"/>
+<feGaussianBlur stdDeviation="26.65"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.33 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_10_88"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_10_88" result="shape"/>
+</filter>
+</defs>
+</svg>

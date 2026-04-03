@@ -8,7 +8,7 @@ const initialFooterBlocks = [
         className: 'footer-main-block',
         content: (
             <div className="marquee-wrapper">
-                <h2 className="massive-title">SAHIL</h2>
+                <h2 className="massive-title">CHAVAN</h2>
             </div>
         )
     },

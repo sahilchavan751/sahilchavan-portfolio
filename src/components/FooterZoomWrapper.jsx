@@ -18,7 +18,7 @@ const FooterZoomWrapper = () => {
             // Use less aggressive clip on mobile where footer is stacked vertically
             const isMobile = window.innerWidth <= 768;
             const startClip = isMobile
-                ? "inset(5% 3% 25% 3%)"
+                ? "inset(3% 3% 70% 3%)"
                 : "inset(15% 5% 55% 5%)";
 
             // Animate clip-path directly using strict 4-value syntax

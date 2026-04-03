@@ -53,7 +53,7 @@ const CustomCursor = () => {
                 setCursorText('');
             } else if (target.closest('.strip')) {
                 setCursorVariant('play');
-                setCursorText('PLAY');
+                setCursorText('CLICK');
             } else if (target.closest('.sphere-main')) {
                 setCursorVariant('drag');
                 setCursorText('DRAG');
