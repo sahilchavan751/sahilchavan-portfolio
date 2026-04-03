@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { motion } from 'framer-motion'
-import musicBtnSvg from '../../svg/MUISC BUTTON.svg'
+const musicBtnSvg = "/svg/MUISC BUTTON.svg"
 export const HERO_VIDEOS = [
     { src: "/hero-videos/college... - Odinnn (1080p, h264).mp4", fit: false },
     { src: "/hero-videos/November dump... - Odinnn (1080p, h264).mp4", fit: false },
